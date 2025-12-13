@@ -1,7 +1,7 @@
 export interface IProduto {
-    id: number,
-    imagem: string,
-    nome: String,
-    descricao: string,
-    preco: number
+    id: number;
+    imagem: string;
+    nome: String;
+    description: string;
+    price: number;
 }

@@ -2,20 +2,28 @@ import type  { IProduto } from "../interface/produto-interface";
 
 import modelo01 from "../assets/img/Pikachu.webp";
 import modelo02 from "../assets/img/pikachu-goku.webp";
+import modelo03 from "../assets/img/Boneco-naruto.jpg";
 
 export const Produtos: IProduto[] = [
     {
         id: 1,
         imagem: modelo01,
         nome: "Modelo 01",
-        preco: 89.90,
-        descricao: "Camisa esportiva de alta qualidade."
+        price: 89.90,
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     },
     {
         id: 2,
         imagem: modelo02,
-        nome: "Camisa Oversize",
-        preco: 129.90,
-        descricao: "Camisa estilo oversize confortável e estilosa."
+        nome: "Modelo 02",
+        price: 129.90,
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+    },
+    {
+        id: 3,
+        imagem: modelo03,
+        nome: "Modelo 03",
+        price: 200.90,
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     }
 ]

@@ -1,0 +1,35 @@
+.side-nav {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid none;
+    border-radius: 8px;
+    background-color: #df7850;
+    padding: 15px;
+    width: 150px;
+    height: 200px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+
+    & .side-nav-list {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 5px;
+        width: 100%;
+        list-style-type: none;
+
+        &.side-nav-items {
+            color: #fff;
+        }
+    }
+
+}
+
+.hidden-login {
+  display: none !important;
+}

@@ -1,36 +1,88 @@
 import { useState } from "react";
+import type { IProduto } from "../interface/produto-interface";
 
-function Cadastro() {
+interface CadastroProps {
+    onAddProduto: (produto: IProduto) => void;
+}
+
+function Cadastro({ onAddProduto }: CadastroProps) {
     const [nome, setNome] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
-    return(
-        <>
-            <form className="formulario" action="">
-                <label htmlFor="nome">Informe o nome do produto</label>
-                <input type="text" 
-                    className="form-control"
-                    value={nome}
-                    onChange={(e) => setNome(e.target.value)}
-                />
+    const [imagem, setImagem] = useState<string>("");
 
-                <label htmlFor="description">Informe a descriação</label>
-                <input type="text" 
-                    className="form-control"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
+    // Função para criar URL da imagem ao criar um novo Produto
+    function handleImageChange(e: React.ChangeEvent<HTMLInputElement>){
+        const file = e.target.files?.[0];
 
-                <label htmlFor="price">Informe o preço</label>
-                <input type="text" 
-                    className="form-control"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
+        if(file){
+            const imageURL = URL.createObjectURL(file); // Cria link temporário
+            setImagem(imageURL);
+        }
+    }
+
+    function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+
+        const novoProduto: IProduto = {
+            id: Date.now(),
+            nome,
+            description,
+            price: Number(price),
+            imagem: imagem
+        };
+
+        onAddProduto(novoProduto);
+
+        // limpa o form
+        setNome("");
+        setDescription("");
+        setPrice("");
+        setImagem("");
+    }
+
+    return (
+        <form className="formulario" onSubmit={handleSubmit}>
+
+            <label htmlFor="">Imagem do Produto</label>
+            <input 
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+            />
+
+            {imagem && (
+                <img
+                    src={imagem}
+                    alt="preview"
+                    style={{ width: "150px", marginTop: "10px", borderRadius: "8px" }}
                 />
-                <button type="submit">Enviar</button>
-            </form>
-        </>
-    )
+            )}
+
+            <label>Informe o nome do produto</label>
+            <input 
+                type="text"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+            />
+
+            <label>Informe a descrição</label>
+            <textarea 
+                className="text-area"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+            />
+
+            <label>Informe o preço</label>
+            <input 
+                type="text"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+            />
+
+            <button type="submit" className="submit-button">Enviar</button>
+        </form>
+    );
 }
 
 export default Cadastro;

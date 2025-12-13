@@ -1,0 +1,40 @@
+{
+  "produtos": [
+    {
+      "id": "1",
+      "nome": "Notebook Gamer",
+      "price": 5000,
+      "description": "loreLorem ipsum dolor sit amet, consectetur adipiscing elit",
+      "imagem": "/img/notbook.jpg"
+    },
+    {
+      "id": "2",
+      "nome": "Mouse RGB",
+      "price": 120,
+      "description": "loreLorem ipsum dolor sit amet, consectetur adipiscing elit",
+      "imagem": "/img/mouse.jpg"
+    },
+    {
+      "id": "3",
+      "nome": "Teclado Mecânico",
+      "price": 300,
+      "description": "loreLorem ipsum dolor sit amet, consectetur adipiscing elit",
+      "imagem": "/img/teclado.jpg"
+    },
+    {
+      "id": 1765322053714,
+      "nome": "Modelo 04",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "price": 200,
+      "imagem": "blob:http://localhost:5173/36f55c55-ccc4-45d3-91ec-b85e476bb78e"
+    },
+    {
+      "id": 1765323710048,
+      "nome": "Modelo 05",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "price": 150,
+      "imagem": "blob:http://localhost:5173/67c4224a-4dc4-4629-b72d-5cfddda59f33"
+    }
+  ],
+  "carrinho": []
+}

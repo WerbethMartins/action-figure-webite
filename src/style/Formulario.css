@@ -1,0 +1,43 @@
+.formulario {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 5px;
+  margin: 10px 0;
+  width: 100%;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+
+  & label {
+    font-size: 1.2rem;
+  }
+
+  & input {
+    border: 1px solid #afabab;
+    padding: 10px;
+    margin: 5px;
+    width: 90%;
+  }
+
+  .text-area {
+    border: 1px solid #afabab;
+    padding: 10px;
+    margin: 5px;
+    width: 93%;
+  }
+
+  & .submit-button {
+    color: #fff;
+    background-color: #0d7bf8;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    transition: all 0.5s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}

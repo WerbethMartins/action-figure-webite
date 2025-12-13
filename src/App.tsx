@@ -1,32 +1,33 @@
-import { useState } from 'react'
-import Header from "./componentes/Header";
-import Cadastro from "./componentes/Cadastro";
-import Card from "./componentes/Card";
+import { Routes, Route, Router } from 'react-router-dom';
+
+/* Componentes */
+import SideHeader from "./componentes/SideHeader";
+
+/* Páginas */
+import Home from "./pages/Home";
+import Produto from './pages/Produto';
+import Carrinho from './pages/Carrinho';
+import Login from './pages/LoginUsuario';
 
 import './App.css'
-import { Produtos } from './data/Produtos';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
-    <>
-      <section className='main-content'>
+      <main className='main-content'>
+        <SideHeader />
         <div className='header-section'>
-          <Header />
+          <Routes>
+            <Route path='/' element={ <Home />} />
+            <Route path="/produtos" element={<Produto />} />
+            <Route path="/carrinho" element={<Carrinho />} />
+            <Route path="/entrar" element={<Login />} />
+          </Routes>
         </div>
-        <div className='formulario'>
-          <Cadastro />
-        </div>
-        <div className='card-section'>
-          {/* Mapeando o objeto de produtos */}
-          {Produtos.map((item) => (
-            <Card key={item.id} {...item} />
-          ))}
-        </div>
-      </section>
-    </>
+      </main>
   )
 }
 
-export default App
+export default App;

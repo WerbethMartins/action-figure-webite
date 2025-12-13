@@ -1,41 +1,51 @@
+@import "./style/Home.css";
 @import "./style/Card.css";
+@import "./style/Header.css";
+@import "./style/Formulario.css";
+@import "./style/PopUp.css";
+@import "./style/Side-menu.css";
+@import "./style/Formulario-login.css";
 
-* {
-  padding: 0;
-  margin: 0;
-}
+/* Import de animações */
+@import "./style/animations/Animation.css";
 
 .main-content {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 5px;
-}
-
-.formulario {
-  display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
-  align-items: flex-start;
-  gap: 10px;
-  border: 1px solid #000;
+  align-items: center;
+  min-width: 90vh;
   padding: 5px;
-  margin: 10px 0;
+  margin: 10px;
 
-  & label {
-    
+  & .header-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 0 15px;
+    width: 100%;
   }
 }
 
-.card-section {
+.formulario-section {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 10px;
   width: 100%;
+}
+
+.card-section {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 150vh;
+  box-sizing: border-box;
 }
 
 @keyframes logo-spin {
