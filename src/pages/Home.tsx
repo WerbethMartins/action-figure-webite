@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
 import { useState, useRef} from "react";
 
-// Imagens
+// Imagens card
 import animeLogo from "../assets/img/anime-logo-2.jpg";
 import nextNextIcon from "../assets/img/down.png";
 import MotionGrafhic from "../assets/img/motion-graphic.png";
 import actionFigure from "../assets/img/action-figure.png";
 import Heart from "../assets/img/Heart.png";
+
+// Imagens Action Figure
+import Inosuke1 from "../assets/img/Inosuke-action-figure.webp";
 
 import archievement from "../assets/img/achievement.png";
 
@@ -80,6 +83,21 @@ function Home() {
         },
     ];
 
+    const actioFigureData = [
+        {
+            id: 1,
+            img: Inosuke1
+        },
+        {
+            id: 2,
+            img: Inosuke1
+        },
+        {
+            id: 3,
+            img: Inosuke1
+        }
+    ]
+
     return(
         <>
             <section className="home">
@@ -125,6 +143,15 @@ function Home() {
                         <img src={nextNextIcon} className="next-page-icon" alt="Seta para a proxima seção" />
                     </div>
                 )}
+
+                <h2 className="most-purchased-title">Actions mais vendidos</h2>
+                <div ref={cardsSectionRef} className={`most-purchased-section ${isCardsVisible ? 'visible' : 'hidden'}`}>
+                    {actioFigureData.map((cards) => (
+                        <div key={cards.id} className="most-purchased-cards">
+                            <img src={cards.img} alt="Imagem dos produtos mais comprados" />
+                        </div>
+                    ))}
+                </div>
             </section>  
         </>
     );

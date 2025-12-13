@@ -134,4 +134,33 @@
         transform: rotate(180deg);
         transition: transform 0.3s ease;
     }
+
+    & .most-purchased-title {
+        color: #fff;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    }
+
+    & .most-purchased-section {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        color: #fff;
+        border: 1px solid #000;
+        padding: 15px;
+
+        & .most-purchased-cards {
+            border: 1px solid #fffefe;
+            border-radius: 15px;
+            padding: 5px;
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+
+            & img {
+                border-radius: 15px;
+                width: 300px;
+                height: 250px;
+            }
+        }
+    }
 }
