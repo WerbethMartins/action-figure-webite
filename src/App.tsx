@@ -2,6 +2,7 @@ import { Routes, Route, Router } from 'react-router-dom';
 
 /* Componentes */
 import SideHeader from "./componentes/SideHeader";
+import Footer from './componentes/Footer';
 
 /* Páginas */
 import Home from "./pages/Home";
@@ -13,9 +14,8 @@ import './App.css'
 
 
 function App() {
-  
-
   return (
+    <>
       <main className='main-content'>
         <SideHeader />
         <div className='header-section'>
@@ -27,6 +27,10 @@ function App() {
           </Routes>
         </div>
       </main>
+      <footer>
+          <Footer />
+      </footer>
+    </>
   )
 }
 

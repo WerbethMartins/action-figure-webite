@@ -1,5 +1,5 @@
 .side-nav {
-    position: relative;
+    position: fixed;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -8,7 +8,6 @@
     border-radius: 8px;
     background-color: #df7850;
     padding: 15px;
-    width: 150px;
     height: 200px;
     box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
@@ -16,15 +15,51 @@
     & .side-nav-list {
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
+        justify-content: center;
+        align-items: center;
         gap: 10px;
         padding: 5px;
         width: 100%;
         list-style-type: none;
 
-        &.side-nav-items {
+        & .side-nav-items { 
+            position: relative;
             color: #fff;
+        }
+
+        & .side-menu-item {
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+
+            &:hover .tooltip {
+                visibility: visible;
+                opacity: 1;
+                top: -20px; 
+                right: -30px; 
+            }
+        }
+
+        & i {
+            font-size: 1.8rem;
+            transition: all 0.5s ease;
+        }
+
+        & .tooltip {
+            position: absolute;
+            visibility: hidden;
+            opacity: 0;
+            white-space: nowrap;
+            pointer-events: none;
+            color: white;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            background-color: #5e20ee;
+            padding: 5px 12px;
+            top: -30px;
+            right: -50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
         }
     }
 

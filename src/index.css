@@ -32,8 +32,9 @@ body {
   display: flex;
   justify-content: center;
   background-color: #2e1f26;
-  width: auto;
-  height: 100%;
+  width: 100vw;
+  height: auto;
+  box-sizing: border-box;
 }
 
 h1 {
