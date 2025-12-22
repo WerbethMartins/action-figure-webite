@@ -18,14 +18,12 @@ function App() {
     <>
       <main className='main-content'>
         <SideHeader />
-        <div className='header-section'>
           <Routes>
             <Route path='/' element={ <Home />} />
             <Route path="/produtos" element={<Produto />} />
             <Route path="/carrinho" element={<Carrinho />} />
             <Route path="/entrar" element={<Login />} />
           </Routes>
-        </div>
       </main>
       <footer>
           <Footer />

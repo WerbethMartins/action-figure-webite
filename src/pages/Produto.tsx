@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 /* Dados da API FAKE */
 import { listarProdutos, adicionarProdutoAPI, type ICarrinhoItem, listarCarrinhoCompleto } from "../services/api";
@@ -11,14 +11,24 @@ import Card from "../componentes/Card";
 
 // import { Produtos } from './data/Produtos';
 import type { IProduto } from '../interface/produto-interface';
+import Popup from '../componentes/Popup';
 
 function Produto() {
     const [produtos, setProdutos] = useState<IProduto[]>([]);
     const [carrinho, setCarrinho] = useState<ICarrinhoItem[]>([]);
 
     // Pop-up
-    const [mensagem, setMensagem] = useState("");
-    const [mostrarPopup, setMostrarPopup] = useState(false);
+    const [popupConfig, setPopupConfig] = React.useState({
+      visivel: false,
+      mensagem: '',
+      tipo: '' as 'sucesso' | 'erro' | ''
+    });
+
+    // Função utilitária para não repetir código
+    const exibirMensagem = (msg: string, tipo: 'sucesso' | 'erro') => {
+        setPopupConfig({ visivel: true, mensagem: msg, tipo: tipo });
+        setTimeout(() => setPopupConfig(prev => ({ ...prev, visivel: false })), 3000);
+    };
 
     const [page, setPage] = useState("produtos"); // Controle da seção atual
 
@@ -38,19 +48,11 @@ function Produto() {
         try {
 
         const novoProduto = await adicionarProdutoAPI(produto); 
-
         setProdutos((prev) => [...prev, novoProduto]);
-
-        setMensagem("Produto cadastrado com sucesso!");
-        setMostrarPopup(true);
-
-        setTimeout(() => setMostrarPopup(false), 2000);
+        exibirMensagem("Produto cadastrado com sucesso!", "sucesso");
 
         } catch (error) {
-        setMensagem("Erro ao cadastrar o produto!");
-        setMostrarPopup(true);
-
-        setTimeout(() => setMostrarPopup(false), 2000);
+          exibirMensagem("Erro ao cadastrar produto.", "erro");
         }
     }
 
@@ -64,9 +66,7 @@ function Produto() {
       const dados = await listarCarrinhoCompleto();
       setCarrinho(dados);
 
-      setMensagem("Produto adicionado ao carrinho!");
-      setMostrarPopup(true);
-      setTimeout(() => setMostrarPopup(false), 2000);
+      exibirMensagem("Produto adicionado ao carrinho!", "sucesso");
     }
 
     return(
@@ -90,11 +90,11 @@ function Produto() {
           )}
 
           {/* POPUP */}
-          {mostrarPopup && (
-            <div className="popup">
-              {mensagem}
-            </div>
-          )}
+          <Popup 
+            visivel={popupConfig.visivel}
+            mensagem={popupConfig.mensagem}
+            tipo={popupConfig.tipo}
+          />
         </>
     );
 

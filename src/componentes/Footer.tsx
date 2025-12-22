@@ -16,7 +16,7 @@ function Footer(){
                 <ul className="tools-information__list">
                     <li>React</li>
                     <li>Typescript</li>
-                    <li>Spring boot</li>
+                    <li>Node.js</li>
                 </ul>
             </div>
             <div className="footer__divisor"></div>

@@ -28,10 +28,10 @@ a:hover {
 }
 
 body {
-  margin: 0;
   display: flex;
   justify-content: center;
   background-color: #2e1f26;
+  margin: 0;
   width: 100vw;
   height: auto;
   box-sizing: border-box;

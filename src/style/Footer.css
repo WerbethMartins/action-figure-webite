@@ -6,12 +6,13 @@
     gap: 30px;
     border: 1px solid #000;
     border-radius: 8px;
+    background-color: #df7850;
     color: #fff;
     padding: 15px;
     height: 10vh;
     margin: 0 10px;
     margin-bottom: 10px;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
 
     & .footer__content {
         display: flex;

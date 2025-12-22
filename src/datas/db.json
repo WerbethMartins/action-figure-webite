@@ -2,9 +2,9 @@
   "produtos": [
     {
       "id": "1",
-      "nome": "Notebook Gamer",
+      "nome": "Gohan Super Saiyajin 2 Scultures Budoukai 7 Dragon Ball Z Banpresto",
       "price": 5000,
-      "description": "loreLorem ipsum dolor sit amet, consectetur adipiscing elit",
+      "description": "Nootbook potente para jogos e tarefas pesadas, com placa de vídeo dedicada e processador de última geração.",
       "imagem": "/img/notbook.jpg"
     },
     {
@@ -36,5 +36,11 @@
       "imagem": "blob:http://localhost:5173/67c4224a-4dc4-4629-b72d-5cfddda59f33"
     }
   ],
-  "carrinho": []
+  "carrinho": [
+    {
+      "id": "1",
+      "produtoId": "1",
+      "quantidade": 1
+    }
+  ]
 }

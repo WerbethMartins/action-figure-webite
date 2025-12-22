@@ -1,6 +1,8 @@
 import { useState } from "react";
 import type { IProduto } from "../interface/produto-interface";
 
+import cadastroFigure from '../assets/img/cadastro-figure.jpg';''
+
 interface CadastroProps {
     onAddProduto: (produto: IProduto) => void;
 }
@@ -42,46 +44,54 @@ function Cadastro({ onAddProduto }: CadastroProps) {
     }
 
     return (
-        <form className="formulario" onSubmit={handleSubmit}>
+        <>
+            <form className="formulario" onSubmit={handleSubmit}>
 
-            <label htmlFor="">Imagem do Produto</label>
-            <input 
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-            />
-
-            {imagem && (
-                <img
-                    src={imagem}
-                    alt="preview"
-                    style={{ width: "150px", marginTop: "10px", borderRadius: "8px" }}
+                <label htmlFor="">Imagem do Produto</label>
+                <input 
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
                 />
-            )}
 
-            <label>Informe o nome do produto</label>
-            <input 
-                type="text"
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-            />
+                {imagem && (
+                    <img
+                        src={imagem}
+                        alt="preview"
+                        style={{ width: "150px", marginTop: "10px", borderRadius: "8px" }}
+                    />
+                )}
 
-            <label>Informe a descrição</label>
-            <textarea 
-                className="text-area"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-            />
+                <label>Informe o nome do produto</label>
+                <input 
+                    type="text"
+                    value={nome}
+                    onChange={(e) => setNome(e.target.value)}
+                />
 
-            <label>Informe o preço</label>
-            <input 
-                type="text"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-            />
+                <div className="desciption-label__header">
+                    <label>Informe a descrição</label>
+                    <p className="description-label__aviso">A descrição deve ter no máximo 100 caracteres</p>
+                </div>
+                <textarea 
+                    className="text-area"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
 
-            <button type="submit" className="submit-button">Enviar</button>
-        </form>
+                <label>Informe o preço</label>
+                <input 
+                    type="text"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                />
+
+                <button type="submit" className="submit-button">Enviar</button>
+            </form>
+            <div className="image-animated-section">
+                <img src={cadastroFigure} alt="Figura de cadastro" />
+            </div>  
+        </>
     );
 }
 

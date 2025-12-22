@@ -6,6 +6,7 @@
 @import "./style/Side-menu.css";
 @import "./style/Formulario-login.css";
 @import "./style/Footer.css";
+@import "./style/Carrinho.css";
 
 /* Import de animações */
 @import "./style/animations/Animation.css";
@@ -15,29 +16,23 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  min-width: 90vh;
+  min-width: 150vh;
   height: 150vh;
   padding: 5px;
   margin: 10px;
   box-sizing: border-box;
-
-  & .header-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin: 0 15px;
-    width: 100%;
-  }
 }
 
 .formulario-section {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
+  align-items: flex-start;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 10px;
+  margin-left: 6%;
+  width: 133vh;
 }
 
 .card-section {
@@ -47,7 +42,9 @@
   justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
-  max-width: 150vh;
+  padding: 15px;
+  margin-left: 5%;
+  max-width: 160vh;
   box-sizing: border-box;
 }
 

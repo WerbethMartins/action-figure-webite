@@ -20,6 +20,20 @@ function Carrinho() {
   const [mensagem, setMensagem] = useState("");
   const [mostrarPopup, setMostrarPopup] = useState(false);
 
+  // Lógica de resumo da compra
+  const subTotal = carrinho.reduce((acc, item) => {
+    return acc + item.produto.price * item.quantidade;
+  }, 0);
+
+  // DESCONTO 10% PARA COMPRAS ACIMA DE R$ 500,00
+  const desconto = subTotal >= 500 ? subTotal * 0.1 : 0;
+
+  const total = subTotal - desconto;
+
+  // Lógica de compra parcela
+  const parcelas = 6;
+  const valorParcela   = total / parcelas;
+
   useEffect(() => {
     async function carregar() {
       const dados = await listarCarrinhoCompleto();
@@ -63,25 +77,61 @@ function Carrinho() {
     <>
 
       <div className="carrinho-section">
-        <h2>Itens no Carrinho</h2>
+        <h2 className="carrinho__title">Carrinho de Compras</h2>
 
-        {carrinho.length === 0 && <p>Seu carrinho está vazio 🛒</p>}
+        {carrinho.length === 0 && <p className="carrinho__qt-items">Seu carrinho está vazio 🛒</p>}
 
-        {carrinho.map(item => (
-          <div className="carrinho-item" key={item.id}>
-            <img src={item.produto.imagem} width="80" />
+        <div className="carrinho-section__item-resume-section">
+            {carrinho.map(item => (
+            <div className="carrinho-item" key={item.id}>
+              <div className="info">
+                <img src={item.produto.imagem} width="80" />
+                <div className="item-details">
+                  <h3>{item.produto.nome}</h3>
+                  <p>Preço: R$ {item.produto.price}</p>
+                  <p>Quantidade: {item.quantidade}</p>
+                </div>
+              </div>
 
-            <div className="info">
-              <h3>{item.produto.nome}</h3>
-              <p>Preço: R$ {item.produto.price}</p>
-              <p>Quantidade: {item.quantidade}</p>
+              <button className="btn-remover" onClick={() => removerItem(item.id)}>
+                Remover
+              </button>
             </div>
+          ))}
 
-            <button className="btn-remover" onClick={() => removerItem(item.id)}>
-              Remover
-            </button>
-          </div>
-        ))}
+          {carrinho.length > 0 && (
+            <div className="resumo-section">
+              <h3 className="resumo-section__title">Resumo do Pedido</h3>
+
+              <div className="resumo-item__subtotal">
+                <span>Subtotal</span>
+                <span> R${subTotal.toFixed(2)}</span>
+              </div>
+
+              {desconto > 0 && (
+                <div className="resumo-item__discount">
+                  <span>Desconto</span>
+                  <span> - R$ {desconto.toFixed(2)}</span>
+                </div>
+              )}
+
+              <div className="resumo-item total">
+                <span>Total</span>
+                <span> - R$ {total.toFixed(2)}</span>
+              </div>
+
+              <div className="resumo-parcelado">
+                <small>
+                  Ou {parcelas}x de R$ {valorParcela.toFixed(2)} sem juros
+                </small>
+              </div>
+
+              <button className="btn-finalizar">
+                Finalizar Pedido
+              </button>
+            </div>
+          )}
+        </div>
 
         {/* POPUP */}
         {mostrarPopup && (

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import cartIcon from "../assets/img/shopping-cart-2.png"
+import cartIcon from "../assets/img/shopping-cart-3.png"
 
 { /* Parametros com TS annotations */}
 function Header({ 
