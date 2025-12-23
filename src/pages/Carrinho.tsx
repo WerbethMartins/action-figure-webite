@@ -93,9 +93,11 @@ function Carrinho() {
                 </div>
               </div>
 
-              <button className="btn-remover" onClick={() => removerItem(item.id)}>
-                Remover
-              </button>
+              <div className="button-section">
+                <button className="btn-remover" onClick={() => removerItem(item.id)}>
+                  Remover
+                </button>
+              </div>
             </div>
           ))}
 
