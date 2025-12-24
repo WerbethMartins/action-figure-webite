@@ -5,42 +5,36 @@
       "nome": "Gohan Super Saiyajin 2 Scultures Budoukai 7 Dragon Ball Z Banpresto",
       "price": 5000,
       "description": "Nootbook potente para jogos e tarefas pesadas, com placa de vídeo dedicada e processador de última geração.",
-      "imagem": "/img/notbook.jpg"
+      "image": "/img/notbook.jpg"
     },
     {
       "id": "2",
       "nome": "Yuri Seijin Naoko-san & Misuzu 1/10 Scale Pre-Painted Figure Chara-Ani",
       "price": 120,
       "description": "Nootbook potente para jogos e tarefas pesadas, com placa de vídeo dedicada e processador de última geração.",
-      "imagem": "/img/mouse.jpg"
+      "image": "/img/mouse.jpg"
     },
     {
       "id": "3",
       "nome": "Genos DXF Premium Figure One-Punch Man Banpresto",
       "price": 300,
       "description": "Nootbook potente para jogos e tarefas pesadas, com placa de vídeo dedicada e processador de última geração.",
-      "imagem": "/img/teclado.jpg"
+      "image": "/img/teclado.jpg"
     },
     {
-      "id": 1765322053714,
+      "id": "1765322053714",
       "nome": "Zamasu Dragon Stars Series Dragon Ball Super Bandai",
       "description": "Nootbook potente para jogos e tarefas pesadas, com placa de vídeo dedicada e processador de última geração.",
       "price": 200,
-      "imagem": "blob:http://localhost:5173/36f55c55-ccc4-45d3-91ec-b85e476bb78e"
+      "image": "blob:http://localhost:5173/36f55c55-ccc4-45d3-91ec-b85e476bb78e"
     },
     {
-      "id": 1765323710048,
+      "id": "1765323710048",
       "nome": "Shoto Todoroki DXF Boku no Hero My Hero Academia Banpresto",
       "description": "Nootbook potente para jogos e tarefas pesadas, com placa de vídeo dedicada e processador de última geração.",
       "price": 150,
-      "imagem": "blob:http://localhost:5173/67c4224a-4dc4-4629-b72d-5cfddda59f33"
+      "image": "blob:http://localhost:5173/67c4224a-4dc4-4629-b72d-5cfddda59f33"
     }
   ],
-  "carrinho": [
-    {
-      "id": "1",
-      "produtoId": "1",
-      "quantidade": 1
-    }
-  ]
+  "carrinho": []
 }

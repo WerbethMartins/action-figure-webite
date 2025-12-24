@@ -1,17 +1,7 @@
 import { useEffect, useState } from "react";
 import { listarCarrinhoCompleto, removerDoCarrinho } from "../services/api";
-
-interface ICarrinhoItemCompleto {
-    id: number;
-    quantidade: number;
-    produto: {
-        id: number;
-        nome: string;
-        price: number;
-        description: string;
-        imagem: string;
-    };
-}
+import type { ICarrinhoItemCompleto } from "../interface/CarrinhoItemCompleto";
+import CarrinhoItem from "../componentes/CarrinhoItem"; 
 
 function Carrinho() {
   const [carrinho, setCarrinho] = useState<ICarrinhoItemCompleto[]>([]);
@@ -44,16 +34,28 @@ function Carrinho() {
           quantidade: item.quantidade,
           produto: {
             id: item.produto.id,
-            nome: item.produto.nome,
-            price: item.produto.price ?? item.produto.price, // caso o campo seja 'preco'
+            name: item.produto.nome,
+            price: Number(item.produto.price),
             description: item.produto.description,
-            imagem: item.produto.imagem,
+            image: item.produto.image,
+            imagens: item.produto.imagens || [item.produto.image]
           },
         }));
       setCarrinho(itensFiltrados);
     }
     carregar();
   }, []);
+
+  // Função para alternar quantidade 
+  const alternarQuantidade = (id: number, novaQuantidade: number) => {
+    if(novaQuantidade < 1) return;
+
+    setCarrinho((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, quantidade: novaQuantidade } : item
+      )
+    );
+  }
 
   async function removerItem(id: number) {
     try {
@@ -81,28 +83,20 @@ function Carrinho() {
 
         {carrinho.length === 0 && <p className="carrinho__qt-items">Seu carrinho está vazio 🛒</p>}
 
-        <div className="carrinho-section__item-resume-section">
-            {carrinho.map(item => (
-            <div className="carrinho-item" key={item.id}>
-              <div className="info">
-                <img src={item.produto.imagem} width="80" />
-                <div className="item-details">
-                  <h3>{item.produto.nome}</h3>
-                  <p>Preço: R$ {item.produto.price}</p>
-                  <p>Quantidade: {item.quantidade}</p>
-                </div>
-              </div>
-
-              <div className="button-section">
-                <button className="btn-remover" onClick={() => removerItem(item.id)}>
-                  Remover
-                </button>
-              </div>
-            </div>
+        {/* Seção de resumo do item no carrinho*/}
+        <section className="carrinho-section__item-resume-section">
+            {carrinho.map((item) => (
+              <CarrinhoItem
+                key={item.id}
+                item={item}
+                onRemover={removerItem}
+                onUpdateQuantidade={alternarQuantidade}
+              />
           ))}
 
+          {/* Seção de resumo dos valores, descontos e finalização do pedido*/}
           {carrinho.length > 0 && (
-            <div className="resumo-section">
+            <article className="resumo-section">
               <h3 className="resumo-section__title">Resumo do Pedido</h3>
 
               <div className="resumo-item__subtotal">
@@ -131,9 +125,9 @@ function Carrinho() {
               <button className="btn-finalizar">
                 Finalizar Pedido
               </button>
-            </div>
+            </article>
           )}
-        </div>
+        </section>
 
         {/* POPUP */}
         {mostrarPopup && (
