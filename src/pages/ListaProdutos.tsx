@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { IProduto } from "../interface/produto-interface";
 
 import Cadastro from "../componentes/Cadastro";
-import Card from "../componentes/Card";
-
+import Card from "../componentes/productCard";
 function ListaProdutos() {
     const [produtos, setProdutos] = useState<IProduto[]>([]);
+    const [loading, setLoading] = useState(true); 
+    const [error, setError] = useState<String | null>(null)
 
     function adicionarProduto(produto: IProduto) {
         setProdutos((prev) => [...prev, produto]);
@@ -22,7 +23,7 @@ function ListaProdutos() {
                     <Card 
                         key={item.id}
                         id={item.id}
-                        imagem={item.imagem}
+                        image={item.image}
                         nome={item.nome}
                         description={item.description}
                         price={item.price}

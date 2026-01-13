@@ -1,14 +1,32 @@
-import { useEffect, useState } from "react";
-import { listarCarrinhoCompleto, removerDoCarrinho } from "../services/api";
-import type { ICarrinhoItemCompleto } from "../interface/CarrinhoItemCompleto";
+import React, {useEffect ,useState } from "react";
+
+// API
+import { criarPedido, limpaCarrinho, listarCarrinhoCompleto, atualizarQuantidadeCarrinho, removerDoCarrinho } from "../services/api";
+
+// Interface
+import type { IPedido } from "../interface/pedidoInterface";
+
+// Componentes
+import type { ICarrinhoItemCompleto } from "../componentes/CarrinhoItemCompleto";
 import CarrinhoItem from "../componentes/CarrinhoItem"; 
+
+// Mensagem POPUP
+import Popup from "../componentes/Popup";
 
 function Carrinho() {
   const [carrinho, setCarrinho] = useState<ICarrinhoItemCompleto[]>([]);
 
   //Pop-up
-  const [mensagem, setMensagem] = useState("");
-  const [mostrarPopup, setMostrarPopup] = useState(false);
+  const [popupConfig, setPopupConfig] = React.useState({
+    visivel: false,
+    mensagem: '',
+    tipo: '' as 'sucesso' | 'erro' | ''
+  });
+
+  const exibirMensagem = (msg: string, tipo: 'sucesso' | 'erro') => {
+    setPopupConfig({ visivel: true, mensagem: msg, tipo: tipo });
+    setTimeout(() => setPopupConfig(prev => ({ ...prev, visivel: false })), 3000);
+  }
 
   // Lógica de resumo da compra
   const subTotal = carrinho.reduce((acc, item) => {
@@ -47,31 +65,82 @@ function Carrinho() {
   }, []);
 
   // Função para alternar quantidade 
-  const alternarQuantidade = (id: number, novaQuantidade: number) => {
+  const alternarQuantidade = async(id: number, novaQuantidade: number) => {
     if(novaQuantidade < 1) return;
 
-    setCarrinho((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantidade: novaQuantidade } : item
-      )
-    );
+    try {
+      const itemAtualizado = await atualizarQuantidadeCarrinho(
+        id,
+        novaQuantidade
+      );
+
+      setCarrinho((prev) => 
+        prev.map((item) => 
+          item.id === id ? { ...item, quantidade: itemAtualizado.quantidade } : item
+        )
+      );
+    }catch(error){
+      exibirMensagem("Erro ao atualizar quantidade!", 'sucesso');
+
+    }
   }
+
+  // Função para remover o item do carrinho
 
   async function removerItem(id: number) {
     try {
       await removerDoCarrinho(id);
-      setCarrinho(prev => prev.filter(item => item.id !== id));
 
-      setMensagem("produto removido do carrinho!");
-      setMostrarPopup(true);
+      setCarrinho(prev =>
+        prev.filter(item => item.id !== id)
+      );
 
-      setTimeout(() => setMostrarPopup(false), 2000);
+      exibirMensagem("Produto removido do carrinho!", 'sucesso');
+
+    } catch (error) {
+      exibirMensagem("Erro ao remover o produto!", 'erro');
+    }
+  } 
+
+  // Função para finalizar o pedido
+
+  async function finalizarPedido() {
+
+    if(carrinho.length === 0) {
+      exibirMensagem("Seu carrinho está vazio!", 'erro');
+
+      return;
+    }
+    try {
+      // Montar o objeto do pedido
+      const pedido: IPedido = {
+        data: new Date().toISOString(),
+        itens: carrinho.map((item) => ({
+          id: item.id,
+          produtoId: item.produto.id,
+          quantidade: item.quantidade,
+        })),
+        subTotal: subTotal,
+        desconto,
+        total,
+        parcelas,
+        valorParcela
+      };
+
+      // Criar o pedido na API
+      await criarPedido(pedido);
+
+      // Limpar o carrinho na API
+      await limpaCarrinho();
+
+      // Limpar o carrinho no estado
+      setCarrinho([]);
+
+      exibirMensagem("Pedido finalizado com sucesso! 🎉", 'sucesso');
+    
 
     }catch(error) {
-      setMensagem("Erro ao remover o produto!");
-      setMostrarPopup(true);
-
-      setTimeout(() => setMostrarPopup(false), 2000);
+      exibirMensagem("Erro ao finalizar o pedido!", 'erro');
     }
   }
 
@@ -85,14 +154,16 @@ function Carrinho() {
 
         {/* Seção de resumo do item no carrinho*/}
         <section className="carrinho-section__item-resume-section">
-            {carrinho.map((item) => (
-              <CarrinhoItem
-                key={item.id}
-                item={item}
-                onRemover={removerItem}
-                onUpdateQuantidade={alternarQuantidade}
-              />
-          ))}
+            <div className="item-resume-section__items">
+              {carrinho.map((item) => (
+                  <CarrinhoItem
+                    key={item.id}
+                    item={item}
+                    onRemover={removerItem}
+                    onUpdateQuantidade={alternarQuantidade}
+                  />
+              ))}
+            </div>
 
           {/* Seção de resumo dos valores, descontos e finalização do pedido*/}
           {carrinho.length > 0 && (
@@ -122,19 +193,17 @@ function Carrinho() {
                 </small>
               </div>
 
-              <button className="btn-finalizar">
-                Finalizar Pedido
-              </button>
+              <button className="btn-finalizar" onClick={finalizarPedido} >Finalizar Pedido</button>
             </article>
           )}
         </section>
 
         {/* POPUP */}
-        {mostrarPopup && (
-          <div className="popup">
-            {mensagem}
-          </div>
-        )}
+        <Popup 
+            visivel={popupConfig.visivel}
+            mensagem={popupConfig.mensagem}
+            tipo={popupConfig.tipo}
+        />
       </div>
     </>
   );

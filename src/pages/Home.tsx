@@ -32,11 +32,11 @@ function Home() {
     const exampleSectionRef = useRef<HTMLDivElement>(null);
 
     // Funções para alternar a visibilidade
-    const toggleCardsVibility = () => {
+    const toggleCardsVisibility = () => {
         const nextState = !isCardsVisible;
         setIsCardsVisible(nextState);
 
-        // Se a próxima ação for ABRIR os cards (nextState é true):
+        // NextState true: mostra a seção de cards
         if(nextState){
             // Torna a SEGUNDA flecha visível
             setTwoArrowVisible(true); 
@@ -48,7 +48,7 @@ function Home() {
                     block: 'start'
                 });
             }, 50); 
-        } else if(!nextState){
+        } else{
             // Deixa invisivel a seção e o icone
             setTwoArrowVisible(false);
 
@@ -109,7 +109,7 @@ function Home() {
         },
     ];
 
-    const actioFigureData = [
+    const actionFigureData = [
         {
             id: 1,
             img: Inosuke1,
@@ -126,7 +126,7 @@ function Home() {
             icon: "bi bi-arrows-move"
         },
         {
-            id: 3,
+            id: 4,
             img: Inosuke1,
             icon: "bi bi-arrows-move"
         }
@@ -141,7 +141,7 @@ function Home() {
                             className="header-home__button"> Login </button>
                     </Link>
                 </header>
-                <div className="home__initial-section">
+                <div  ref={firstSectionRef} className="home__initial-section">
                     <div className="initial-section__title">
                         <h1 className="title">Animes Actions.F</h1>
                         <h4 className="sub-title">Aqui você encontra tudo do mundo dos animes!</h4>
@@ -152,12 +152,14 @@ function Home() {
                     <img 
                         src={animeLogo} 
                         alt="Logo inicial" 
-                        className="img-home"/>
+                        className="img-home"
+                    />
                 </div>
+
                 {/* Adicionando evento onClick e a classe condicional */}
                 {isOneArrowVisible && (
                     <div className={`next-page-button-section ${isCardsVisible ? 'rotated' : ''}`}
-                    onClick={toggleCardsVibility}>
+                    onClick={toggleCardsVisibility}>
 
                         <img src={nextNextIcon} className="next-page-icon" alt="Seta para proxima página" />
                     
@@ -182,11 +184,12 @@ function Home() {
                     </div>
                 )}
 
-                <div ref={cardsSectionRef} className={`most-purchased-section ${isProductExampleVisible ? 'visible' : 'hidden'}`}>
+                <div ref={exampleSectionRef} className={`most-purchased-section ${isProductExampleVisible ? 'visible' : 'hidden'}`}>
                     <h2 className={`most-purchased-title ${isTitleVisible}`}>Actions mais vendidos</h2>
                     <div className="most-purchased-section__container">
-                        {actioFigureData.map((cards) => (
+                        {actionFigureData.map((cards) => (
                             <div key={cards.id} className="most-purchased-cards">
+                                {/* Ícone com link e tooltip (Remover o link quebra o css)*/}
                                 <a className="most-purchased__icon">
                                     <Link to={"/produtos"}>
                                         <i className={cards.icon} />

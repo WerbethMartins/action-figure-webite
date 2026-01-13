@@ -31,7 +31,7 @@ function Cadastro({ onAddProduto }: CadastroProps) {
             nome,
             description,
             price: Number(price),
-            imagem: imagem
+            image: imagem
         };
 
         onAddProduto(novoProduto);

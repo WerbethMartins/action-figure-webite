@@ -7,7 +7,7 @@ import { adicionarAoCarrinho } from '../services/api';
 /* Componentes */
 import Header from '../componentes/Header';
 import Cadastro from "../componentes/Cadastro";
-import Card from "../componentes/Card";
+import Card from "../componentes/productCard";
 
 // import { Produtos } from './data/Produtos';
 import type { IProduto } from '../interface/produto-interface';

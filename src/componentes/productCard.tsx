@@ -5,18 +5,18 @@ interface cardProps extends IProduto {
     onAddCarrinho?: (produto: IProduto) => void;
 }
 
-function Card({ imagem, nome, price, description, id, onAddCarrinho }: cardProps) {
+function Card({ image, nome, price, description, id, onAddCarrinho }: cardProps) {
 
     function handleAdd(){
         if(onAddCarrinho) {
-            onAddCarrinho({ id, imagem, nome, price, description });
+            onAddCarrinho({ id, image, nome, price, description });
         }
     }
 
     return (
         <div className="card">
             <div className="card-header">
-                <img src={imagem} />
+                <img src={image} />
             </div>
 
             <div className="card-title">

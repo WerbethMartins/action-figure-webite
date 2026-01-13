@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import type { ICarrinhoItemCompleto } from "../interface/CarrinhoItemCompleto";
+import type { ICarrinhoItemCompleto } from "./CarrinhoItemCompleto";
 
 interface CarrinhoItemProps {
     item: ICarrinhoItemCompleto; 
@@ -43,17 +43,13 @@ function CarrinhoItem({item, onRemover, onUpdateQuantidade}: CarrinhoItemProps) 
                         <h3>{item.produto.name}</h3>
                         <p className="price">R$ {item.produto.price.toFixed(2)}</p>
                         
+                        {/* Controla a quantidade de produto no carrinho que será adicionado */}
                         <div className="quantity-control">
-                            <button 
-                                onClick={() => onUpdateQuantidade(item.id, item.quantidade - 1)}
-                                disabled={item.quantidade <= 1}
-                            > - </button>
+                            <button onClick={() => onUpdateQuantidade(item.id, item.quantidade - 1)} disabled={item.quantidade <= 1}> - </button>
                             
                             <span>{item.quantidade}</span>
                             
-                            <button 
-                                onClick={() => onUpdateQuantidade(item.id, item.quantidade + 1)}
-                            > + </button>
+                            <button onClick={() => onUpdateQuantidade(item.id, item.quantidade + 1)}> + </button>
                         </div>
                     </div>
 

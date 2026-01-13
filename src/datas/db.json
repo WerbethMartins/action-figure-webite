@@ -2,7 +2,7 @@
   "produtos": [
     {
       "id": "1",
-      "nome": "Gohan Super Saiyajin 2 Scultures Budoukai 7 Dragon Ball Z Banpresto",
+      "nome": "NOTBOOK de ultima geração, com processador potente para jogos",
       "price": 5000,
       "description": "Nootbook potente para jogos e tarefas pesadas, com placa de vídeo dedicada e processador de última geração.",
       "image": "/img/notbook.jpg"
@@ -36,5 +36,39 @@
       "image": "blob:http://localhost:5173/67c4224a-4dc4-4629-b72d-5cfddda59f33"
     }
   ],
-  "carrinho": []
+  "carrinho": [
+    {
+      "id": "1",
+      "produtoId": "1",
+      "quantidade": 1
+    },
+    {
+      "id": "2",
+      "produtoId": "2",
+      "quantidade": 1
+    }
+  ],
+  "pedidos": [
+    {
+      "id": "b9ed",
+      "data": "2026-01-12T22:38:21.704Z",
+      "itens": [
+        {
+          "id": "1",
+          "produtoId": "1",
+          "quantidade": 1
+        },
+        {
+          "id": "3",
+          "produtoId": "3",
+          "quantidade": 1
+        }
+      ],
+      "subTotal": 5300,
+      "desconto": 530,
+      "total": 4770,
+      "parcelas": 6,
+      "valorParcela": 795
+    }
+  ]
 }
