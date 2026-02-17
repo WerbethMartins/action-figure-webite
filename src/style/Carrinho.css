@@ -147,14 +147,16 @@
             flex-direction: column;
             justify-content: flex-start;
             align-items: flex-start;
-            gap: 10px;
+            gap: 8px;
             border: 1px solid #000;
             border-radius: 8px;
+            color: #ccc;
             background-color: #df7850;
             padding: 10px;
             width: 25%;
 
             & .resumo-section__title {
+                color: #fff;
                 border-bottom: 1px solid #fff;
                 padding: 10px 0;
                 margin-bottom: 10px;
@@ -173,9 +175,25 @@
                 width: 94%; 
             }
 
-            & .total-price {
-                font-size: 20px;
+            & .total {
+                color: #fff;
+                font-size: 25px;
                 font-weight: bold;
+            }
+
+            & .resumo-parcelado {
+                margin-left: 5px;
+            }
+
+            & .btn-finalizar {
+                color: #fff;
+                background-color: #146fb9;
+                box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+                transition: all 0.5s ease;
+
+                &:hover {
+                    transform: translateY(-5px);
+                }
             }
         }
     }

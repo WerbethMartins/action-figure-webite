@@ -7,6 +7,7 @@
 @import "./style/Formulario-login.css";
 @import "./style/Footer.css";
 @import "./style/Carrinho.css";
+@import "./style/Pedido-concluido.css";
 
 /* Import de animações */
 @import "./style/animations/Animation.css";

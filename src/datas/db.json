@@ -36,18 +36,7 @@
       "image": "blob:http://localhost:5173/67c4224a-4dc4-4629-b72d-5cfddda59f33"
     }
   ],
-  "carrinho": [
-    {
-      "id": "1",
-      "produtoId": "1",
-      "quantidade": 1
-    },
-    {
-      "id": "2",
-      "produtoId": "2",
-      "quantidade": 1
-    }
-  ],
+  "carrinho": [],
   "pedidos": [
     {
       "id": "b9ed",
@@ -69,6 +58,59 @@
       "total": 4770,
       "parcelas": 6,
       "valorParcela": 795
+    },
+    {
+      "id": "2c9c",
+      "data": "2026-02-17T22:15:10.752Z",
+      "itens": [
+        {
+          "id": "1",
+          "produtoId": "1",
+          "quantidade": 1
+        },
+        {
+          "id": "2",
+          "produtoId": "2",
+          "quantidade": 1
+        }
+      ],
+      "subTotal": 5120,
+      "desconto": 512,
+      "total": 4608,
+      "parcelas": 6,
+      "valorParcela": 768
+    },
+    {
+      "id": "7fc6",
+      "data": "2026-02-17T23:21:31.283Z",
+      "itens": [
+        {
+          "id": "1",
+          "produtoId": "1",
+          "quantidade": 1
+        }
+      ],
+      "subTotal": 5000,
+      "desconto": 500,
+      "total": 4500,
+      "parcelas": 6,
+      "valorParcela": 750
+    },
+    {
+      "id": "fcb8",
+      "data": "2026-02-17T23:22:03.929Z",
+      "itens": [
+        {
+          "id": "2",
+          "produtoId": "2",
+          "quantidade": 1
+        }
+      ],
+      "subTotal": 120,
+      "desconto": 0,
+      "total": 120,
+      "parcelas": 6,
+      "valorParcela": 20
     }
   ]
 }

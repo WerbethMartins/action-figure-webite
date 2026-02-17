@@ -1,5 +1,7 @@
 import React, {useEffect ,useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 // API
 import { criarPedido, limpaCarrinho, listarCarrinhoCompleto, atualizarQuantidadeCarrinho, removerDoCarrinho } from "../services/api";
 
@@ -15,6 +17,7 @@ import Popup from "../componentes/Popup";
 
 function Carrinho() {
   const [carrinho, setCarrinho] = useState<ICarrinhoItemCompleto[]>([]);
+  const navigate = useNavigate();
 
   //Pop-up
   const [popupConfig, setPopupConfig] = React.useState({
@@ -103,7 +106,6 @@ function Carrinho() {
   } 
 
   // Função para finalizar o pedido
-
   async function finalizarPedido() {
 
     if(carrinho.length === 0) {
@@ -137,6 +139,11 @@ function Carrinho() {
       setCarrinho([]);
 
       exibirMensagem("Pedido finalizado com sucesso! 🎉", 'sucesso');
+
+      //Redireciona página de Pedidos Concluido ao finalizar a compra
+      navigate("/pedido-concluido", {
+        state: { pedido }
+      });
     
 
     }catch(error) {
@@ -172,19 +179,19 @@ function Carrinho() {
 
               <div className="resumo-item__subtotal">
                 <span>Subtotal</span>
-                <span> R${subTotal.toFixed(2)}</span>
+                <span> R$ {subTotal.toFixed(2)}</span>
               </div>
 
               {desconto > 0 && (
                 <div className="resumo-item__discount">
                   <span>Desconto</span>
-                  <span> - R$ {desconto.toFixed(2)}</span>
+                  <span>: R$ {desconto.toFixed(2)}</span>
                 </div>
               )}
 
               <div className="resumo-item total">
                 <span>Total</span>
-                <span> - R$ {total.toFixed(2)}</span>
+                <span>: R$ {total.toFixed(2)}</span>
               </div>
 
               <div className="resumo-parcelado">
