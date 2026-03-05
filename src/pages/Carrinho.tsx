@@ -59,7 +59,6 @@ function Carrinho() {
             price: Number(item.produto.price),
             description: item.produto.description,
             image: item.produto.image,
-            imagens: item.produto.imagens || [item.produto.image]
           },
         }));
       setCarrinho(itensFiltrados);
@@ -121,12 +120,14 @@ function Carrinho() {
           id: item.id,
           produtoId: item.produto.id,
           quantidade: item.quantidade,
+          image: item.produto.image
         })),
         subTotal: subTotal,
         desconto,
         total,
         parcelas,
-        valorParcela
+        valorParcela,
+        image: carrinho.find(item => item.produto.image)?.produto.image || "https://via.placeholder.com/150"
       };
 
       // Criar o pedido na API

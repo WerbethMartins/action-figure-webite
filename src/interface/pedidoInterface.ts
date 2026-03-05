@@ -2,6 +2,7 @@ import type { ICarrinhoItem } from './carrinho-interface';
 
 export interface IPedido {
   id?: number;
+  image: string;
   data: string;
   itens: ICarrinhoItem[];
   subTotal: number;

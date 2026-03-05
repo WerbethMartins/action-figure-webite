@@ -14,6 +14,7 @@ const API_URL = "http://localhost:3000";
 // ===== PRODUTOS =====
 export async function listarProdutos(): Promise<IProduto[]> {
     const response = await fetch(`${API_URL}/produtos`);
+    if (!response.ok) throw new Error("Erro ao listar produtos");
     return await response.json();
 }
 
@@ -25,6 +26,13 @@ export async function adicionarProdutoAPI(produto: IProduto): Promise<IProduto> 
   });
   if (!response.ok) throw new Error("Erro ao salvar produto na API");
   return await response.json();
+}
+
+export async function removerProdutoAPI(id: number): Promise<void> {
+  const response = await fetch(`${API_URL}/produtos/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) throw new Error("Erro ao remover produto da API");
 }
 
 // ===== CARRINHO =====

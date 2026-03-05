@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
 /* Dados da API FAKE */
-import { listarProdutos, adicionarProdutoAPI, type ICarrinhoItem, listarCarrinhoCompleto } from "../services/api";
+import { listarProdutos, type ICarrinhoItem, listarCarrinhoCompleto } from "../services/api";
 import { adicionarAoCarrinho } from '../services/api';
 
 /* Componentes */
 import Header from '../componentes/Header';
-import Cadastro from "../componentes/Cadastro";
 import Card from "../componentes/productCard";
 
 // import { Produtos } from './data/Produtos';
@@ -44,18 +43,6 @@ function Produto() {
         carregar();
     }, []);
 
-    async function adicionarProduto(produto: IProduto) {
-        try {
-
-        const novoProduto = await adicionarProdutoAPI(produto); 
-        setProdutos((prev) => [...prev, novoProduto]);
-        exibirMensagem("Produto cadastrado com sucesso!", "sucesso");
-
-        } catch (error) {
-          exibirMensagem("Erro ao cadastrar produto.", "erro");
-        }
-    }
-
     async function adicionarCarrinho(produto: IProduto) {
       await adicionarAoCarrinho({
           id: produto.id,
@@ -72,13 +59,6 @@ function Produto() {
     return(
         <>
           <Header activePage={page} onChangePage={setPage} carrinhoCount={carrinho.length} />
-
-          {/* Seção de Formulario */}
-          {page === "cadastrar" && (
-            <div className='formulario-section'>
-              <Cadastro onAddProduto={adicionarProduto} />
-            </div>
-          )}
 
           {/* Seção dos Cards */}
           {page === "produtos" && (

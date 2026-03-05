@@ -1,23 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import cartIcon from "../assets/img/shopping-cart-3.png"
 
 { /* Parametros com TS annotations */}
 function Header({ 
     activePage, onChangePage, carrinhoCount }: { activePage: string; onChangePage: (page: string) => void; carrinhoCount: number}) {
 
+    const navigate = useNavigate();
+        
     return(
         <header>
             <nav  className="navbar">
                 <div className="button-section">
                     <button 
                         className={`navbar-item ${activePage === "produtos" ? "active" : ""}`}
-                        onClick={() => onChangePage("produtos")}>
+                        onClick={() => navigate("/produtos")}>
                     Produtos
                     </button>
 
                     <button 
-                        className={`navbar-item ${activePage === "cadastrar" ? "active" : ""}`}
-                        onClick={() => onChangePage("cadastrar")}>
+                        className={`navbar-item ${activePage === "cadastro" ? "active" : ""}`}
+                        onClick={() => navigate("/cadastro")}>
                     Cadastrar
                     </button>
                 </div>
