@@ -9,6 +9,7 @@
 @import "./style/Carrinho.css";
 @import "./style/Pedido-concluido.css";
 @import "./style/Meus-pedidos.css";
+@import "./style/ModalEditarProduto.css";
 
 /* Import de animações */
 @import "./style/animations/Animation.css";

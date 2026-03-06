@@ -1,45 +1,50 @@
 import React from "react";
 import type { IProduto } from "../interface/produto-interface";
-import { removerProdutoAPI, type ICarrinhoItem } from "../services/api";
 import Popup from "./Popup";
 
+// Interface para as props do Card, estendendo IProduto e adicionando funções opcionais para ações
 interface cardProps extends IProduto {
     onAddCarrinho?: (produto: IProduto) => void;
+    onRemoveProduto?: (id: number) => void;
+    onEditarProduto?: (produto: IProduto) => void;
 }
 
-function Card({ image, nome, price, description, id, onAddCarrinho }: cardProps) {
+function Card({ image, nome, price, description, id, onAddCarrinho, onRemoveProduto, onEditarProduto }: cardProps) {
 
-    const [produtos, setProdutos] = React.useState<IProduto[]>([]);
-
+    // Pop-up
     const [popupConfig, setPopupConfig] = React.useState({
         visivel: false,
         mensagem: '',
         tipo: '' as 'sucesso' | 'erro' | ''
     });
 
+    // Função utilitária para não repetir código
     const exibirMensagem = (msg: string, tipo: 'sucesso' | 'erro') => {
         setPopupConfig({ visivel: true, mensagem: msg, tipo: tipo });
         setTimeout(() => setPopupConfig(prev => ({ ...prev, visivel: false })), 3000);
     }
 
+    // Função para lidar com a adição ao carrinho
     function handleAdd(){
         if(onAddCarrinho) {
             onAddCarrinho({ id, image, nome, price, description });
+            exibirMensagem("Produto adicionado ao carrinho!", "sucesso");
         }
     }
 
-    async function handleRemove(id:number){
-        try {
-            await removerProdutoAPI(id);
+    // Função para lidar com a edição do produto
+    function handleUpdate(){
+        if(onEditarProduto){
+            onEditarProduto({ id, image, nome, price, description });
+            exibirMensagem("Produto carregado para edição!", "sucesso");
+        }
+    }
 
-            // Atualiza estado local removendo da lista
-            setProdutos(prev => prev.filter(p => p.id !== id));
-            exibirMensagem("Produto removido do carrinho!", "sucesso");
-
-            // Atualiza a página de produtos para refletir a mudança
-            window.location.reload();
-        } catch (error) {
-            exibirMensagem("Erro ao remover produto do carrinho!", "erro");
+    // Função para lidar com a remoção do produto
+    function handleRemove(){
+        if(onRemoveProduto){
+            onRemoveProduto(id);
+            exibirMensagem("Produto removido!", "sucesso");
         }
     }
 
@@ -62,8 +67,9 @@ function Card({ image, nome, price, description, id, onAddCarrinho }: cardProps)
                     <strong>Preço:  R$ {price}</strong>
                 </div>
                 <div className="card-button">
-                    <button className="add-button" onClick={handleAdd}>Adicionar</button>
-                    <button className="remove-button" onClick={() => handleRemove(id)}>X</button>
+                    <button className="add-button" onClick={handleAdd}> <strong className="card-icon"> 🛒 </strong></button>
+                    <button className="remove-button" onClick={() => handleRemove()}>X</button>
+                    <button className="update-button" onClick={() => handleUpdate()}>✏️</button>
                 </div>
             </div>
 
@@ -78,3 +84,4 @@ function Card({ image, nome, price, description, id, onAddCarrinho }: cardProps)
 }
 
 export default Card;
+

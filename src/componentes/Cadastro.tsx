@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { IProduto } from "../interface/produto-interface";
-import { adicionarProdutoAPI } from "../services/api";
+import { adicionarProdutoAPI, atualizarProdutoAPI } from "../services/api";
 
 import cadastroFigure from '../assets/img/cadastro-figure.jpg';
 
@@ -11,6 +11,8 @@ function Cadastro() {
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
     const [imagem, setImagem] = useState<string>("");
+
+    const [produtoEditando, setProdutoEditando] = useState<IProduto | null>(null);
 
     const [popupConfig, setPopupConfig] = React.useState({
         visivel: false,
@@ -35,6 +37,7 @@ function Cadastro() {
         }
     }
 
+    // Função para lidar com o envio do formulário e salvar ou atualizar o produto na API
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
 
@@ -52,16 +55,21 @@ function Cadastro() {
         };
 
         try {
-            const produtoSalvo = await adicionarProdutoAPI(novoProduto);
-            console.log("Produto salvo no servidor:", produtoSalvo);
-
-            exibirMensagem("Produto cadastrado com sucesso!", "sucesso");
+            if(produtoEditando){
+                await atualizarProdutoAPI(produtoEditando.id, novoProduto);
+                exibirMensagem("Produto atualizado com sucesso!", "sucesso");
+            } else {
+                const produtoSalvo = await adicionarProdutoAPI(novoProduto);
+                console.log("Produto salvo no servidor:", produtoSalvo);
+                exibirMensagem("Produto cadastrado com sucesso!", "sucesso");
+            }
 
             // limpa o form
             setNome("");
             setDescription("");
             setPrice("");
             setImagem("");
+            setProdutoEditando(null);
 
         } catch (error) {
             console.error("Erro ao salvar produto:", error);
@@ -116,7 +124,9 @@ function Cadastro() {
                     <button 
                         type="submit" 
                         className="submit-button"
-                        >Enviar</button>
+                    >
+                        {produtoEditando ? "Atualizar produto" : "Cadastrar produto"}
+                    </button>
                 </form>
                 <div className="image-animated-section">
                     <img src={cadastroFigure} alt="Figura de cadastro" />

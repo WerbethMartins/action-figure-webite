@@ -28,6 +28,16 @@ export async function adicionarProdutoAPI(produto: IProduto): Promise<IProduto> 
   return await response.json();
 }
 
+export async function atualizarProdutoAPI(id: number, produto: IProduto): Promise<IProduto> {
+  const response = await fetch(`${API_URL}/produtos/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(produto),
+  });
+  if (!response.ok) throw new Error("Erro ao atualizar produto na API");
+  return await response.json();
+}
+
 export async function removerProdutoAPI(id: number): Promise<void> {
   const response = await fetch(`${API_URL}/produtos/${id}`, {
     method: "DELETE",

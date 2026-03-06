@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
-/* Dados da API FAKE */
-import { listarProdutos, type ICarrinhoItem, listarCarrinhoCompleto } from "../services/api";
-import { adicionarAoCarrinho } from '../services/api';
-
-/* Componentes */
+// Componentes
 import Header from '../componentes/Header';
 import Card from "../componentes/productCard";
+import ModalEditarProduto from '../componentes/ModalEditarProduto';
+
+/* Dados da API FAKE */
+import { listarProdutos, type ICarrinhoItem, listarCarrinhoCompleto, removerProdutoAPI } from "../services/api";
+import { adicionarAoCarrinho } from '../services/api';
 
 // import { Produtos } from './data/Produtos';
 import type { IProduto } from '../interface/produto-interface';
@@ -15,6 +16,7 @@ import Popup from '../componentes/Popup';
 function Produto() {
     const [produtos, setProdutos] = useState<IProduto[]>([]);
     const [carrinho, setCarrinho] = useState<ICarrinhoItem[]>([]);
+    const [produtoEditando, setProdutoEditando] = useState<IProduto | null>(null);
 
     // Pop-up
     const [popupConfig, setPopupConfig] = React.useState({
@@ -56,6 +58,19 @@ function Produto() {
       exibirMensagem("Produto adicionado ao carrinho!", "sucesso");
     }
 
+    function editarProduto(produto: IProduto){
+      setProdutoEditando(produto);
+    }
+
+    function atualizarProdutoLista(produtoAtualizado: IProduto){
+      exibirMensagem("Produto atualizado com sucesso!", "sucesso");
+      setProdutos(prev =>
+        prev.map(p =>
+          p.id === produtoAtualizado.id ? produtoAtualizado : p
+        )
+      );
+    }
+
     return(
         <>
           <Header activePage={page} onChangePage={setPage} carrinhoCount={carrinho.length} />
@@ -63,11 +78,24 @@ function Produto() {
           {/* Seção dos Cards */}
           {page === "produtos" && (
             <div className="card-section">
-              {produtos.map(item => (
-                <Card key={item.id} {...item}  onAddCarrinho={adicionarCarrinho}/>
+              {produtos.map(produto => (
+                <Card 
+                  key={produto.id} {...produto}  
+                  onAddCarrinho={adicionarCarrinho}
+                  onEditarProduto={() => editarProduto(produto)}
+                  onRemoveProduto={removerProdutoAPI}
+                />
               ))}
             </div>
           )}
+
+          {/* Modal de Edição */}
+          <ModalEditarProduto
+            produto={produtoEditando}
+            onClose={() => setProdutoEditando(null)}
+            onProdutoAtualizado={atualizarProdutoLista}
+          />
+
 
           {/* POPUP */}
           <Popup 
