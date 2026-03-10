@@ -6,15 +6,19 @@ import Card from "../componentes/productCard";
 import ModalEditarProduto from '../componentes/ModalEditarProduto';
 
 /* Dados da API FAKE */
-import { listarProdutos, type ICarrinhoItem, listarCarrinhoCompleto, removerProdutoAPI } from "../services/api";
+import type { ICarrinhoItem } from '../interface/carrinho-interface';
+import {listarCarrinhoCompleto, removerProdutoAPI } from "../services/api";
 import { adicionarAoCarrinho } from '../services/api';
 
 // import { Produtos } from './data/Produtos';
 import type { IProduto } from '../interface/produto-interface';
 import Popup from '../componentes/Popup';
 
+// Hooks
+import { useProdutos } from '../hooks/useProdutos';
+
 function Produto() {
-    const [produtos, setProdutos] = useState<IProduto[]>([]);
+    const { produtos, setProdutos} = useProdutos();
     const [carrinho, setCarrinho] = useState<ICarrinhoItem[]>([]);
     const [produtoEditando, setProdutoEditando] = useState<IProduto | null>(null);
 
@@ -36,10 +40,8 @@ function Produto() {
     // Carregar produtos da API na inicialização
     useEffect(() => {
         async function carregar() {
-          const dados = await listarProdutos();
+          // Carrega produtos e carrinho para garantir que ambos estejam atualizados
           const dadosCarrinho = await listarCarrinhoCompleto();
-
-          setProdutos(dados)
           setCarrinho(dadosCarrinho)
         }
         carregar();

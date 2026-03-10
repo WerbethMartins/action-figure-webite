@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import type { IProduto } from "../interface/produto-interface";
-import { adicionarProdutoAPI, atualizarProdutoAPI } from "../services/api";
 
+// Hooks
+import { useProdutos } from "../hooks/useProdutos";
+
+// Imagens
 import cadastroFigure from '../assets/img/cadastro-figure.jpg';
 
+// Componentes
 import Popup from '../componentes/Popup';
 
 function Cadastro() {
+    const { adicionarProduto, atualizarProduto} = useProdutos();
     const [nome, setNome] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -56,11 +61,10 @@ function Cadastro() {
 
         try {
             if(produtoEditando){
-                await atualizarProdutoAPI(produtoEditando.id, novoProduto);
+                await atualizarProduto(produtoEditando.id, novoProduto);
                 exibirMensagem("Produto atualizado com sucesso!", "sucesso");
             } else {
-                const produtoSalvo = await adicionarProdutoAPI(novoProduto);
-                console.log("Produto salvo no servidor:", produtoSalvo);
+                await adicionarProduto(novoProduto);
                 exibirMensagem("Produto cadastrado com sucesso!", "sucesso");
             }
 
