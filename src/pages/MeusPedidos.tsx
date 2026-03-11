@@ -8,6 +8,8 @@ import defaultImage from "../assets/img/commercial.png";
 function MeusPedidos(){
     const [pedidos, setPedidos] = useState<IPedido[]>([]);
     const [produtos, setProdutos] = useState<IProduto[]>([]);
+    const [paginaAtual, setPaginaAtual] = useState(1);
+    const itemsPorPagina = 4;
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -19,7 +21,7 @@ function MeusPedidos(){
                 ]);
 
                 console.log("Pedidos:", pedidos);
-console.log("Produtos:", produtos);
+                console.log("Produtos:", produtos);
                 setPedidos(pedidosData);
                 setProdutos(produtosData);
 
@@ -37,6 +39,16 @@ console.log("Produtos:", produtos);
         return <p>Carregando pedidos...</p>;
     }
 
+    // Lógica de paginação
+    const indiceUltimoItem = paginaAtual * itemsPorPagina;
+    const indicePrimeiroItem = indiceUltimoItem - itemsPorPagina;
+
+    // Filtra os pedidos para exibir apenas os do cliente logado (supondo que temos o ID do cliente)
+    const pedidosPagina = pedidos.slice(indicePrimeiroItem, indiceUltimoItem);
+
+    // Calcula o total de páginas
+    const totalPaginas = Math.ceil(pedidos.length / itemsPorPagina);
+
     return (
         <div className="orders-container">
             <h1 style={{ fontSize: "40px" }}>📦 Meus Pedidos</h1>
@@ -45,7 +57,8 @@ console.log("Produtos:", produtos);
                 <p>Você ainda não realizou nenhum pedido.</p>
             )}
 
-            {pedidos.map((pedido) => {
+            {/* Páginação */}
+            {pedidosPagina.map((pedido) => {
                 const primeiroItem = pedido.itens?.[0];
 
                 const produto = produtos.find(
@@ -117,6 +130,25 @@ console.log("Produtos:", produtos);
                     </div>
                 );
             })}
+            
+            {/* Páginação */}
+            <div className="pagination">
+                <button
+                    disabled={paginaAtual === 1}
+                    onClick={() => setPaginaAtual(paginaAtual - 1)}
+                >
+                    ⬅ Anterior
+                </button>
+                <span>
+                    Página {paginaAtual} de {totalPaginas}
+                </span>
+                <button
+                    disabled={paginaAtual === totalPaginas}
+                    onClick={() => setPaginaAtual(paginaAtual + 1)}
+                >
+                    Próxima ➡
+                </button>
+            </div>
         </div>
     );
 }

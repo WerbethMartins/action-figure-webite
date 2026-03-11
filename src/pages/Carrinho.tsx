@@ -3,21 +3,23 @@ import React, {useEffect ,useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // API
-import { criarPedido, limpaCarrinho, listarCarrinhoCompleto, atualizarQuantidadeCarrinho, removerDoCarrinho } from "../services/api";
+import { criarPedido, limpaCarrinho } from "../services/api";
 
 // Interface
 import type { IPedido } from "../interface/pedidoInterface";
 
+// Hook
+import { useCarrinho } from "../hooks/useCarrinho";
+
 // Componentes
-import type { ICarrinhoItemCompleto } from "../componentes/CarrinhoItemCompleto";
 import CarrinhoItem from "../componentes/CarrinhoItem"; 
 
 // Mensagem POPUP
 import Popup from "../componentes/Popup";
 
 function Carrinho() {
-  const [carrinho, setCarrinho] = useState<ICarrinhoItemCompleto[]>([]);
   const navigate = useNavigate();
+  const { carrinho, setCarrinho, subTotal, total, desconto, parcelas, valorParcela, atualizarQuantidade, removerItem, loading } = useCarrinho();
 
   //Pop-up
   const [popupConfig, setPopupConfig] = React.useState({
@@ -31,77 +33,17 @@ function Carrinho() {
     setTimeout(() => setPopupConfig(prev => ({ ...prev, visivel: false })), 3000);
   }
 
-  // Lógica de resumo da compra
-  const subTotal = carrinho.reduce((acc, item) => {
-    return acc + item.produto.price * item.quantidade;
-  }, 0);
-
-  // DESCONTO 10% PARA COMPRAS ACIMA DE R$ 500,00
-  const desconto = subTotal >= 500 ? subTotal * 0.1 : 0;
-
-  const total = subTotal - desconto;
-
-  // Lógica de compra parcela
-  const parcelas = 6;
-  const valorParcela   = total / parcelas;
-
-  useEffect(() => {
-    async function carregar() {
-      const dados = await listarCarrinhoCompleto();
-      const itensFiltrados = dados
-        .filter((item: any) => item.produto !== undefined)
-        .map((item: any) => ({
-          id: item.id,
-          quantidade: item.quantidade,
-          produto: {
-            id: item.produto.id,
-            name: item.produto.nome,
-            price: Number(item.produto.price),
-            description: item.produto.description,
-            image: item.produto.image,
-          },
-        }));
-      setCarrinho(itensFiltrados);
-    }
-    carregar();
-  }, []);
-
   // Função para alternar quantidade 
   const alternarQuantidade = async(id: number, novaQuantidade: number) => {
     if(novaQuantidade < 1) return;
 
-    try {
-      const itemAtualizado = await atualizarQuantidadeCarrinho(
-        id,
-        novaQuantidade
-      );
-
-      setCarrinho((prev) => 
-        prev.map((item) => 
-          item.id === id ? { ...item, quantidade: itemAtualizado.quantidade } : item
-        )
-      );
-    }catch(error){
-      exibirMensagem("Erro ao atualizar quantidade!", 'sucesso');
-
-    }
+    atualizarQuantidade(id, novaQuantidade);
   }
 
   // Função para remover o item do carrinho
-
-  async function removerItem(id: number) {
-    try {
-      await removerDoCarrinho(id);
-
-      setCarrinho(prev =>
-        prev.filter(item => item.id !== id)
-      );
-
-      exibirMensagem("Produto removido do carrinho!", 'sucesso');
-
-    } catch (error) {
-      exibirMensagem("Erro ao remover o produto!", 'erro');
-    }
+  async function deletarItem(id: number) {
+    removerItem(id);
+    exibirMensagem("produto removido do carrinho!", "sucesso");
   } 
 
   // Função para finalizar o pedido
@@ -167,7 +109,7 @@ function Carrinho() {
                   <CarrinhoItem
                     key={item.id}
                     item={item}
-                    onRemover={removerItem}
+                    onRemover={deletarItem}
                     onUpdateQuantidade={alternarQuantidade}
                   />
               ))}
