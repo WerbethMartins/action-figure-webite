@@ -12,6 +12,7 @@ import Cadastro from './componentes/Cadastro';
 import Login from './pages/LoginUsuario';
 import PedidoConcluido from './pages/PedidoConcluido';
 import MeusPedidos from './pages/MeusPedidos';
+import About from './pages/About';
 
 import './App.css'
 
@@ -24,6 +25,7 @@ function App() {
           <Routes>
             <Route path='/' element={ <Home />} />
             <Route path="/produtos" element={<Produto />} />
+            <Route path='/sobre' element={<About />} />
             <Route path="/carrinho" element={<Carrinho />} />
             <Route path='/cadastro' element={<Cadastro />} />
             <Route path="/entrar" element={<Login />} />
@@ -31,9 +33,6 @@ function App() {
             <Route path='/pedidos' element={<MeusPedidos /> } />
           </Routes>
       </main>
-      <footer>
-          <Footer />
-      </footer>
     </>
   )
 }

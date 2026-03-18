@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Header from '../componentes/Header';
 import Card from "../componentes/productCard";
 import ModalEditarProduto from '../componentes/ModalEditarProduto';
+import Footer from '../componentes/Footer';
 
 /* Dados da API FAKE */
 import type { ICarrinhoItem } from '../interface/carrinho-interface';
@@ -90,6 +91,10 @@ function Produto() {
               ))}
             </div>
           )}
+
+          <footer style={{width: "100%"}}>
+            <Footer />
+          </footer>
 
           {/* Modal de Edição */}
           <ModalEditarProduto

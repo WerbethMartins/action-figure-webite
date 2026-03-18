@@ -9,6 +9,7 @@ import cadastroFigure from '../assets/img/cadastro-figure.jpg';
 
 // Componentes
 import Popup from '../componentes/Popup';
+import Footer from "./Footer";
 
 function Cadastro() {
     const { adicionarProduto, atualizarProduto} = useProdutos();
@@ -136,6 +137,10 @@ function Cadastro() {
                     <img src={cadastroFigure} alt="Figura de cadastro" />
                 </div>  
             </div>
+
+            <footer style={{width: "100%"}}>
+                <Footer />
+            </footer>
 
             {/* Popup */}
             <Popup 

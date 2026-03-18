@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { useState, useRef} from "react";
 
+// Componenetes
+import Footer from "../componentes/Footer";
+
 // Imagens card
 import animeLogo from "../assets/img/anime-logo-2.jpg";
 import nextNextIcon from "../assets/img/down.png";
@@ -202,6 +205,10 @@ function Home() {
                     </div>
                 </div>
             </section>  
+
+            <footer style={{width: "100%"}}>
+                <Footer />
+            </footer>
         </>
     );
 }

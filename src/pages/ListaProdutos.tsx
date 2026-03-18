@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import type { IProduto } from "../interface/produto-interface";
 
-import Cadastro from "../componentes/Cadastro";
+// Componentes
 import Card from "../componentes/productCard";
+import Footer from "../componentes/Footer";
+
 function ListaProdutos() {
     const [produtos, setProdutos] = useState<IProduto[]>([]);
     const [loading, setLoading] = useState(true); 
@@ -59,6 +61,10 @@ function ListaProdutos() {
                     />
                 ))}
             </div>
+
+            <footer style={{width: "100%"}}>
+                <Footer />
+            </footer>
         </>
     );
 }

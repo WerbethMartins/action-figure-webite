@@ -6,7 +6,7 @@ function SideHeader(){
         {path: "/", label: "HOME", icon: "bi bi-house", span: "Home"},    
         {path: "produtos", label: "PRODUTOS", icon: "bi bi-basket3", span: "Produtos"},
         {path: "carrinho", label: "CARRINHO", icon: "bi bi-cart", span: "Carrinho"},
-        {path: "Sobre", label: "SOBRE", icon: "bi bi-file-earmark-person", span: "Sobre"},
+        {path: "sobre", label: "SOBRE", icon: "bi bi-file-earmark-person", span: "Sobre"},
         {path: "entrar", label: "ENTRAR", icon: "bi bi-door-closed", span: "Entrar"},
         {path : "pedidos", label: "PEDIDOS", icon: "bi bi-receipt", span: "Meus Pedidos"}
     ];

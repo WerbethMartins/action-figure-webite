@@ -1,7 +1,7 @@
 @import "./style/Home.css";
 @import "./style/Card.css";
 @import "./style/Header.css";
-@import "./style/Formulario.css";
+@import "./style/Cadastro.css";
 @import "./style/PopUp.css";
 @import "./style/Side-menu.css";
 @import "./style/Formulario-login.css";
@@ -10,6 +10,7 @@
 @import "./style/Pedido-concluido.css";
 @import "./style/Meus-pedidos.css";
 @import "./style/ModalEditarProduto.css";
+@import "./style/About.css";
 
 /* Import de animações */
 @import "./style/animations/Animation.css";
@@ -20,7 +21,6 @@
   justify-content: flex-start;
   align-items: flex-start;
   min-width: 150vh;
-  height: 150vh;
   padding: 5px;
   margin: 10px;
   box-sizing: border-box;
@@ -31,11 +31,11 @@
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  border: 1px solid #000;
   border-radius: 8px;
   padding: 10px;
   margin-left: 6%;
   width: 133vh;
+  height: 80vh;
 }
 
 .card-section {

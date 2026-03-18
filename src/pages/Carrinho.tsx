@@ -13,6 +13,7 @@ import { useCarrinho } from "../hooks/useCarrinho";
 
 // Componentes
 import CarrinhoItem from "../componentes/CarrinhoItem"; 
+import Footer from "../componentes/Footer";
 
 // Mensagem POPUP
 import Popup from "../componentes/Popup";
@@ -155,6 +156,10 @@ function Carrinho() {
             tipo={popupConfig.tipo}
         />
       </div>
+
+      <footer style={{width: "100%"}}>
+        <Footer />
+      </footer>
     </>
   );
 }
