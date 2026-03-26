@@ -1,21 +1,39 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+
+// APi
 import { loginUsuario } from '../services/api';
+import { cadastrarUsuario } from '../services/api';
+
+// Navigation
+import { useNavigate } from 'react-router-dom';
+
+
+interface Usuario {
+  nome: string;
+  email: string;
+  role: 'admin' | 'cliente'; // Define os tipos de cargos possíveis
+}
 
 interface AuthContextData {
-  usuario: any | null;
+  usuario: Usuario | null;
   logado: boolean;
+  loading: boolean;
   login: (email: string, senha: string) => Promise<void>;
-  logout: () => void;
+  cadastrar(email: string, senha: string, nome: string): Promise<boolean>; 
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [usuario, setUsuario] = useState<any | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   // Ao carregar o app, verifica se já tem alguém salvo no navegador
   useEffect(() => {
-    const usuarioSalvo = localStorage.getItem('@App:usuario');
+    const usuarioSalvo = localStorage.getItem('@AnimesActions:user');
     if (usuarioSalvo) {
       setUsuario(JSON.parse(usuarioSalvo));
     }
@@ -23,23 +41,64 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Função de Login
   async function login(email: string, senha: string) {
+    setLoading(true);
     try {
       const user = await loginUsuario(email, senha);
       setUsuario(user);
-      localStorage.setItem('@App:usuario', JSON.stringify(user));
+      localStorage.setItem('@AnimesActions:user', JSON.stringify(user));
     } catch (error: any) {
       throw new Error(error.message);
+    }finally {
+      setLoading(false);
+    }
+  }
+
+  // Função de Cadastro
+  async function cadastrar(email: string, senha: string, nome: string) {
+    setLoading(true);
+    try {
+        const newUser = await cadastrarUsuario({
+            nome,
+            email,
+            senha,
+        });
+
+        if (newUser) {
+            const userData = { nome: newUser.nome, email: newUser.email };
+            setUsuario(userData);
+            localStorage.setItem("@AnimesActions:user", JSON.stringify(userData));
+            return true;
+        }
+        
+        return false;
+
+    } catch (error: any) {
+        console.error("Erro no cadastro:", error.message);
+        throw error; 
+    } finally {
+      setLoading(false);
     }
   }
 
   // Função de Logout
-  function logout() {
-    setUsuario(null);
-    localStorage.removeItem('@App:usuario');
+  async function logout() {
+    setLoading(true);
+
+    try{
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Limpa os dados após o delay
+      setUsuario(null);
+      localStorage.removeItem('@AnimesActions:user');
+    }catch(error){
+      console.log("Erro ao deslogar", error);
+    }finally {
+      setLoading(false);
+    }
   }
 
   return (
-    <AuthContext.Provider value={{ logado: !!usuario, usuario, login, logout }}>
+    <AuthContext.Provider value={{ logado: !!usuario, usuario, loading, login, cadastrar, logout }}>
       {children}
     </AuthContext.Provider>
   );

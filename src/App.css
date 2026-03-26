@@ -11,6 +11,7 @@
 @import "./style/Meus-pedidos.css";
 @import "./style/ModalEditarProduto.css";
 @import "./style/About.css";
+@import "./style/Cadastrar-usuario.css";
 
 /* Import de animações */
 @import "./style/animations/Animation.css";

@@ -171,7 +171,9 @@ export async function listarPedidos(): Promise<IPedido[]> {
 
 // ===== USUÁRIOS E AUTENTICAÇÃO =====
 export async function loginUsuario(email: string, senha: string) {
-  const response = await fetch(`${API_URL}/usuarios?email=${email}&senha=${senha}`);
+  
+  await new Promise(resolve => setTimeout(resolve, 2000)); // Simula atraso de rede
+  const response = await fetch(`${API_URL}/usuarios?email=${email}`);
   
   if (!response.ok) throw new Error("Erro ao conectar com o servidor");
   
@@ -179,15 +181,30 @@ export async function loginUsuario(email: string, senha: string) {
   
   // O json-server retorna um array. Se estiver vazio, as credenciais estão incorretas.
   if (usuarios.length === 0) {
-    throw new Error("E-mail ou senha inválidos");
+    throw new Error("E-mail não encontrado");
   }
   
-  return usuarios[0]; // Retorna o usuário encontrado
+  const usuarioEncontrado = usuarios[0]; // Retorna o usuário encontrado
+   
+   if (usuarioEncontrado.senha !== senha) {
+    throw new Error("Senha incorreta");
+  }
+  
+  const { senha: _, ...userWithoutPassword } = usuarioEncontrado;
+  return userWithoutPassword;
+
 }
 
 export async function cadastrarUsuario(dados: any) {
+  await new Promise(resolve => setTimeout(resolve, 2000));
   // Verifica se o email já existe antes de cadastrar
   const checkResponse = await fetch(`${API_URL}/usuarios?email=${dados.email}`);
+  
+  if (!checkResponse.ok) {
+    // Se der 404 aqui, o problema é a URL ou o nome da tabela no db.json
+    throw new Error(`Servidor não encontrou a rota /usuarios (Status ${checkResponse.status})`);
+  }
+  
   const existing = await checkResponse.json();
   
   if (existing.length > 0) {
@@ -199,6 +216,12 @@ export async function cadastrarUsuario(dados: any) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
   });
+
+  if(!response.ok) {
+    const textoErro = await response.text();
+    console.error("O servidor respondeu com um erro:", response.status, textoErro);
+    throw new Error(`Erro ${response.status}: ${textoErro}`);
+  }
 
   return await response.json();
 }

@@ -102,8 +102,6 @@ function Produto() {
                   onAddCarrinho={adicionarCarrinho}
                   onEditarProduto={() => editarProduto(produto)}
                   onRemoveProduto={removerProdutoAPI}
-                  onToggleDestaque={toggleDestaque}
-                  destacado={produtosDestacados.includes(produto.id)}
                 />
               ))}
             </div>

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 // Navegação
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate, useLocation } from "react-router-dom"; 
 
 // Importação das funções de validação
 import { validateForm } from "../hooks/useFormValidation";
@@ -13,6 +13,9 @@ import { useAuth } from "../context/AuthContext";
 
 // Interfaces
 import { type FormData, type FormErrors } from "../types/formTypes"; 
+
+// Componentes
+import Popup from "../componentes/Popup";
 import Footer from "./Footer";
 
 // Define o estado inicial do formulário
@@ -31,8 +34,25 @@ function Formulario() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [apiError, setApiError] = useState<String | null>(null); // Erro de login
 
-    const { login } = useAuth();
+    const { login, loading } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // Pega a página onde o usuário estava
+    const from = location.state?.from?.pathname || "/";
+
+    // Pop-up
+        const [PopupConfig, setPopupConfig] = React.useState({
+            visiviel: false,
+            mensagem: '',
+            tipo: '' as 'sucesso' | 'erro' | ''   
+        });
+    
+        // Função utilitaria
+        const exibirMensagem = (msg: string, tipo: 'sucesso' | 'erro') => {
+            setPopupConfig({ visiviel: true, mensagem: msg, tipo: tipo});
+            setTimeout(() => setPopupConfig(prev => ({ ...prev, visiviel: false})), 3000);
+        }
 
     // Função genérica para lidar com a mudança nos inputs
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,13 +82,9 @@ function Formulario() {
             try {
                 // Simulando a lógica de login com o Context
                 // Aqui é passado os dados para a função criada no AuthContext
-                const sucesso = await login(formData.email, formData.senha);
-
-                if (sucesso != null) {
-                    navigate("/"); // Manda para a Home após logar
-                } else {
-                    setApiError("E-mail ou senha inválidos.");
-                }
+                await login(formData.email.trim(), formData.senha.trim());
+                exibirMensagem("Bem-vindo!", "sucesso")
+                navigate(from, { replace: true }); // Redireciona para o destino original
             } catch (error) {
                 setApiError("Ocorreu um erro ao conectar ao servidor.");
             } finally {
@@ -128,17 +144,23 @@ function Formulario() {
                         {errors.senha && <p style={{ color: 'red' }}>{errors.senha}</p>}
                     </div>
 
-                    <button className="btn-submit" type="submit" disabled={isSubmitting}>
-                        {isSubmitting ? "Autenticando..." : "Enviar"}
+                    <button className="btn-submit" type="submit" disabled={loading}>
+                        {loading ? <div className="spinner"></div> : "Enviar"}
                     </button>
 
                     <div className="ask-account-section">
-                        <Link to={"criar-conta"}>
+                        <Link to={"/cadastrar-usuario"} className="ask-account-link">
                             <p>Não tem cadastro? Criar uma conta!</p>
                         </Link>
                     </div>
                 </form>
             </section>
+
+            <Popup 
+                visivel={PopupConfig.visiviel}
+                mensagem={PopupConfig.mensagem}
+                tipo={PopupConfig.tipo}
+            />
 
             <footer style={{width: "100%"}}>
                 <Footer />

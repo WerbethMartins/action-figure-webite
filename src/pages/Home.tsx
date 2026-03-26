@@ -21,9 +21,8 @@ import archievement from "../assets/img/achievement.png";
 function Home() {
 
     // Dados do usuário e a função de logout do contexto
-    const { logado, usuario, logout } = useAuth();
-
-
+    const { logado, usuario, logout, loading } = useAuth();
+    
     // Listar produtos
     const { produtos } = useProdutos(); 
 
@@ -131,12 +130,12 @@ function Home() {
                     {/* Lógica condicional do Header*/}
                     {logado ? (
                         <div className="user-info-header">
-                            <span className="welcome-text">Olá, {usuario?.nome}</span>
+                            <span className="welcome-text">{usuario?.nome}</span>
                             <button 
-                                onClick={logout}
-                                className="header-home__button logout"
+                                onClick={logout} className="header-home__button logout"
+                                disabled={loading}
                             > 
-                                Sair 
+                                {loading ? <div className="spinner"></div> : "Sair"} 
                             </button>
                         </div>
                     ) : (

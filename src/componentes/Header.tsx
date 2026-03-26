@@ -1,10 +1,17 @@
+// Navigate
 import { Link, useNavigate } from "react-router-dom";
+
+// Context
+import { useAuth } from "../context/AuthContext";
+
+// Icon
 import cartIcon from "../assets/img/shopping-cart-3.png"
 
 { /* Parametros com TS annotations */}
 function Header({ 
     activePage, onChangePage, carrinhoCount }: { activePage: string; onChangePage: (page: string) => void; carrinhoCount: number}) {
 
+    const {usuario} = useAuth(); 
     const navigate = useNavigate();
         
     return(
@@ -17,11 +24,14 @@ function Header({
                     Produtos
                     </button>
 
-                    <button 
-                        className={`navbar-item ${activePage === "cadastro" ? "active" : ""}`}
-                        onClick={() => navigate("/cadastro")}>
-                    Cadastrar
-                    </button>
+                    {/* Renderiza o link apenas de so usuário for admin*/}
+                    {usuario?.role === 'admin' && (
+                        <button 
+                            className={`navbar-item ${activePage === "cadastro" ? "active" : ""}`}
+                            onClick={() => navigate("/admin/cadastrar-produto")}>
+                            Cadastrar Produto
+                        </button>
+                    )}
                 </div>
 
                 <div className="shopping-cart-section">

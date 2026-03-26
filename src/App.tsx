@@ -1,7 +1,8 @@
 import { Routes, Route} from 'react-router-dom';
 
-// Hook 
-import { useAuth } from './context/AuthContext';
+// RequireAuth, RequireRoles
+import { RequireAuth } from './componentes/RequireAuth';
+import { RequireRole } from './componentes/RequireRole';
 
 /* Componentes */
 import SideHeader from "./componentes/SideHeader";
@@ -15,6 +16,7 @@ import Login from './pages/LoginUsuario';
 import PedidoConcluido from './pages/PedidoConcluido';
 import MeusPedidos from './pages/MeusPedidos';
 import About from './pages/About';
+import CadastrarUsuario from './pages/CadastrarUsuario';
 
 import './App.css'
 
@@ -26,12 +28,20 @@ function App() {
       <main className='main-content'>
         <SideHeader />
           <Routes>
+            {/* Rota Pública */}
             <Route path='/' element={ <Home />} />
             <Route path="/produtos" element={<Produto />} />
             <Route path='/sobre' element={<About />} />
             <Route path="/carrinho" element={<Carrinho />} />
-            <Route path='/cadastro' element={<Cadastro />} />
             <Route path="/entrar" element={<Login />} />
+            <Route path='/cadastrar-usuario' element={<CadastrarUsuario />} />
+
+            {/* Rota apenas para admin */}
+            <Route path="/admin/cadastrar-produto" element={
+              <RequireRole rolePermitida='admin'>
+                <Cadastro />
+              </RequireRole>
+            } />
             <Route path='/pedido-concluido' element={<PedidoConcluido /> } />
             <Route path='/pedidos' element={<MeusPedidos /> } />
           </Routes>

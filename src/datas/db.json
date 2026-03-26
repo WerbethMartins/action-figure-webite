@@ -166,5 +166,14 @@
       "parcelas": 6,
       "valorParcela": 750
     }
+  ],
+  "usuarios": [
+    {
+      "id": "77c6",
+      "nome": "Werbeth Martins Sousa",
+      "email": "martinspaulinho91@gmail.com",
+      "senha": "@Werbeth123",
+      "role": "admin"
+    }
   ]
 }
