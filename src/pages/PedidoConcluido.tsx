@@ -52,14 +52,14 @@ function PedidoConcluido(){
                 )}
 
                 <div className="button-actions-section">
-                    <button className="actions-button" onClick={() => navigate("/pedidos")}>
+                    <button className="actions-button" onClick={() => navigate("/user/meus-pedidos")}>
                         Ver meus pedidos
                     </button>
-                    <button className="actions-button" style={{ backgroundColor: "#ff3c3c", color: "#fff" }} onClick={() => navigate("/produtos")}>
+                    <button className="actions-button" style={{ backgroundColor: "#ff3c3c", color: "#fff" }} onClick={() => navigate("/home")}>
                         Cancelar Pedido
                     </button> 
 
-                    <button className="actions-button" onClick={() => navigate("/")}>
+                    <button className="actions-button" onClick={() => navigate("/produtos")}>
                         Voltar para produtos
                     </button>
                 </div>

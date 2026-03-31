@@ -80,14 +80,23 @@ export async function removerProdutoAPI(id: number): Promise<void> {
 // ===== CARRINHO =====
 
 // Atualiza quantidade no carrinho
-export async function atualizarQuantidadeCarrinho(id: number, quantidade: number) {
-  const response = await fetch(`${API_URL}/carrinho/${id}`,{
+export async function atualizarQuantidadeCarrinho(id: number | string, quantidade: number) {
+  // Garantindo que o ID seja uma string limpa para a URL
+  const idFormatado = String(id);
+
+  const response = await fetch(`${API_URL}/carrinho/${idFormatado}`,{
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ quantidade })
   });
+
+  if (!response.ok) {
+    const errorText = await response.text(); // Lê o "Not Found" como texto plano
+    console.error("Resposta do servidor:", errorText);
+    throw new Error(`Erro ${response.status}: Não foi possível localizar o item ${id} no carrinho.`);
+  }
 
   return response.json();
 }
@@ -177,7 +186,7 @@ export async function removerDoCarrinho(id: number): Promise<void> {
 
 // ===== PEDIDOS =====
 export async function listarPedidosPorUsuario(email: string): Promise<IPedido[]> {
-  const response = await fetch(`${API_URL}/pedidos/clienteEmail=${email}`);
+  const response = await fetch(`${API_URL}/pedidos?clienteEmail=${email}`);
   if(!response.ok){
     throw new Error("Erro ao listar pedidos");
   }

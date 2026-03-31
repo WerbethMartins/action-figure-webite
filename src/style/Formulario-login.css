@@ -100,6 +100,18 @@
       }
     }
 
+    & .btn-ver-senha {
+        position: absolute;
+        top: 47.2%;
+        right: 40%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.1rem;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+    }
+
     & .error-text {
       color: #cf6679;
       font-size: 0.8rem;

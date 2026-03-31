@@ -31,8 +31,8 @@ const initialFormErrors: FormErrors = {};
 function Formulario() {
     const [formData, setFormData] = useState<FormData>(initialFormData);
     const [errors, setErrors] = useState<FormErrors>(initialFormErrors);
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [apiError, setApiError] = useState<String | null>(null); // Erro de login
+    const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar senha
 
     const { login, loading } = useAuth();
     const navigate = useNavigate();
@@ -77,8 +77,6 @@ function Formulario() {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length === 0) {
-            setIsSubmitting(true);
-            
             try {
                 // Simulando a lógica de login com o Context
                 // Aqui é passado os dados para a função criada no AuthContext
@@ -87,8 +85,6 @@ function Formulario() {
                 navigate(from, { replace: true }); // Redireciona para o destino original
             } catch (error) {
                 setApiError("Ocorreu um erro ao conectar ao servidor.");
-            } finally {
-                setIsSubmitting(false);
             }
         }
     };
@@ -133,7 +129,7 @@ function Formulario() {
                     <div className="input-group">
                         <label htmlFor="senha">Senha:</label>
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             id="senha"
                             name="senha"
                             placeholder="Sua senha"
@@ -141,6 +137,13 @@ function Formulario() {
                             onChange={handleChange}
                             className={errors.senha ? "input-error" : ""}
                         />
+                        <button 
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="btn-ver-senha"
+                        >
+                            {showPassword ? "👁️" : "🙈"}
+                        </button>
                         {errors.senha && <p style={{ color: 'red' }}>{errors.senha}</p>}
                     </div>
 

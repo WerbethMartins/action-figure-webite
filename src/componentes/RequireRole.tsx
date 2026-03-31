@@ -16,7 +16,7 @@ export function RequireRole({ children, rolePermitida }: RequireRoleProps) {
     if(loading) return <div>Carregando...</div>;
 
     if(!usuario){
-        return <Navigate to="/login" />
+        return <Navigate to="/entrar" />
     }
 
     if(usuario.role !== rolePermitida){

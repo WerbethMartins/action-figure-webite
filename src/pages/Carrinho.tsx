@@ -74,14 +74,15 @@ function Carrinho() {
           id: item.id,
           produtoId: item.produto.id,
           quantidade: item.quantidade,
-          image: item.produto.image
+          image: item.produto.image,
+          thumbnails: item.produto.thumbnails || [item.produto.image]
         })),
         subTotal: subTotal,
         desconto,
         total,
         parcelas,
         valorParcela,
-        image: carrinho.find(item => item.produto.image)?.produto.image || "https://via.placeholder.com/150"
+        image: carrinho[0]?.produto.image || "https://via.placeholder.com/150"
       };
 
       // Criar o pedido na API

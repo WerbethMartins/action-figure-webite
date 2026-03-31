@@ -41,6 +41,8 @@ export function useCarrinho() {
                     price: Number(item.produto.price),
                     description: item.produto.description,
                     image: item.produto.image,
+                    thumbnails: item.produto.thumbnails || [item.produto.image],
+                    destaque: item.produto.destaque || false,
                 },
             }));
         setCarrinho(itensFiltrados);
@@ -56,16 +58,22 @@ export function useCarrinho() {
         carregarCarrinho();
     }, []);
 
-    async function atualizarQuantidade(id:number, quantidade:number){
-        try{
-        await atualizarQuantidadeCarrinho(id, quantidade);
-        setCarrinho(prev =>
-            prev.map(item =>
-            item.id === id ? { ...item, quantidade } : item
-            )
-        );
-        }catch(error){
-        console.error("Erro ao atualizar quantidade", error);
+    async function atualizarQuantidade(id: number, novaQuantidade: number) {
+        // Evita enviar quantidades negativas ou zero se sua regra de negócio não permitir
+        if (novaQuantidade < 1) return;
+
+        try {
+            await atualizarQuantidadeCarrinho(id, novaQuantidade);
+
+            // Atualiza a UI apenas após o sucesso
+            setCarrinho(prev =>
+                prev.map(item =>
+                    item.id === id ? { ...item, quantidade: novaQuantidade } : item
+                )
+            );
+        } catch (error) {
+            console.error("Erro ao sincronizar com o servidor:", error);
+            alert("Não foi possível atualizar a quantidade. Tente novamente.");
         }
     }
 

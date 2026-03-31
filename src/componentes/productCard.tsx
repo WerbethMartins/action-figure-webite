@@ -21,7 +21,7 @@ interface cardProps extends IProduto {
     favorito?: boolean;
 }
 
-function Card({ image, nome, price, description, id, onAddCarrinho, onRemoveProduto, onEditarProduto, destaque, favorito }: cardProps) {
+function Card({ image, nome, price, description, id, onAddCarrinho, onRemoveProduto, onEditarProduto, destaque, favorito, thumbnails }: cardProps) {
 
     const {usuario} = useAuth();
 
@@ -41,7 +41,7 @@ function Card({ image, nome, price, description, id, onAddCarrinho, onRemoveProd
     // Função para lidar com a adição ao carrinho
     function handleAdd(){
         if(onAddCarrinho) {
-            onAddCarrinho({ id, image, nome, price, description });
+            onAddCarrinho({ id, image, nome, price, description, thumbnails });
             exibirMensagem("Produto adicionado ao carrinho!", "sucesso");
         }
     }
@@ -49,7 +49,7 @@ function Card({ image, nome, price, description, id, onAddCarrinho, onRemoveProd
     // Função para lidar com a edição do produto
     function handleUpdate(){
         if(onEditarProduto){
-            onEditarProduto({ id, image, nome, price, description });
+            onEditarProduto({ id, image, nome, price, description,thumbnails });
             exibirMensagem("Produto carregado para edição!", "sucesso");
         }
     }
@@ -70,6 +70,7 @@ function Card({ image, nome, price, description, id, onAddCarrinho, onRemoveProd
                 description,
                 price,
                 image,
+                thumbnails,
                 destaque
             });
 
@@ -88,6 +89,7 @@ function Card({ image, nome, price, description, id, onAddCarrinho, onRemoveProd
                 description,
                 price, 
                 image, 
+                thumbnails,
                 favorito
             });
 
@@ -117,7 +119,7 @@ function Card({ image, nome, price, description, id, onAddCarrinho, onRemoveProd
                             {favorito ? "❤️" : "🤍"}
                         </button>
                     )}
-                    <img src={image} />
+                    <img src={Array.isArray(image) ? image[0] : image} />
                 </div>
 
                 <div className="card-title">

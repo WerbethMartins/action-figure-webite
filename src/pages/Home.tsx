@@ -199,7 +199,7 @@ function Home() {
                                     </Link>
                                     <span className='tooltip'>Ver Mais</span>
                                 </a>
-                                <img src={p.image} alt="Imagem dos produtos mais comprados" />
+                                <img src={Array.isArray(p.image) ? p.image[0] : p.image} alt="Imagem dos produtos mais comprados" />
                             </div>
                         ))}
                     </div>

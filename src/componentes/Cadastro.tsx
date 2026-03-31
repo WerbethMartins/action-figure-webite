@@ -16,7 +16,7 @@ function Cadastro() {
     const [nome, setNome] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
-    const [imagem, setImagem] = useState<string>("");
+    const [imagem, setImagem] = useState<string[]>([]);
 
     const [produtoEditando, setProdutoEditando] = useState<IProduto | null>(null);
 
@@ -33,13 +33,24 @@ function Cadastro() {
 
     // Função para criar URL da imagem ao criar um novo Produto
     function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const file = e.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagem(reader.result as string);
-            }
-            reader.readAsDataURL(file);
+        const files = e.target.files;
+
+        if (imagem.length >= 5) {
+            alert("Máximo de 5 imagens permitido");
+            return;
+        }
+
+        if (files) {
+            const filesArray = Array.from(files); // Transforma a lista de arquivos em array 
+           
+            filesArray.forEach((file) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    // Adiciona as novas imagens ao array já existente
+                    setImagem((prev) => [...prev, reader.result as string])
+                };
+                reader.readAsDataURL(file);
+            });
         }
     }
 
@@ -57,7 +68,8 @@ function Cadastro() {
             nome,
             description,
             price: parseFloat(price),
-            image: imagem,
+            image: imagem[0] || '',
+            thumbnails: imagem,
             destaque: false
         };
 
@@ -74,7 +86,7 @@ function Cadastro() {
             setNome("");
             setDescription("");
             setPrice("");
-            setImagem("");
+            setImagem([]);
             setProdutoEditando(null);
 
         } catch (error) {
@@ -88,20 +100,33 @@ function Cadastro() {
             <div className='formulario-section'>
                 <form className="formulario" onSubmit={handleSubmit}>
 
-                    <label htmlFor="">Imagem do Produto</label>
+                    <label htmlFor="">Imagem do Produto (selecione várias imagens)</label>
                     <input 
                         type="file"
                         accept="image/*"
+                        multiple // Permite selecionar vários arquivos
                         onChange={handleImageChange}
                     />
 
-                    {imagem && (
-                        <img
-                            src={imagem}
-                            alt="preview"
-                            style={{ width: "50px", marginTop: "-10px", marginLeft: "5px", borderRadius: "8px" }}
-                        />
-                    )}
+                    <div className="thumbnails-container">
+                        {imagem.map((img, index) => (
+                            <div key={index} style={{ position: 'relative' }}>
+                                <img
+                                    src={img}
+                                    alt={`preview-${index}`}
+                                    style={{ width: "60px", height: "60px", borderRadius: "8px", objectFit: 'cover' }}
+                                />
+                                {/* Botão opcional para remover uma imagem específica antes de salvar */}
+                                <button 
+                                    type="button"
+                                    className="delete-button"
+                                    onClick={() => setImagem(imagem.filter((_, i) => i !== index))}
+                                >
+                                    x
+                                </button>
+                            </div>
+                        ))}
+                    </div>
 
                     <label>Informe o nome do produto</label>
                     <input 

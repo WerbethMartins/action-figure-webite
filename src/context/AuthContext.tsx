@@ -36,6 +36,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const usuarioSalvo = localStorage.getItem('@AnimesActions:user');
     if (usuarioSalvo) {
       setUsuario(JSON.parse(usuarioSalvo));
+      setLoading(false);
     }
   }, []);
 

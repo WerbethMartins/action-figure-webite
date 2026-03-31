@@ -19,7 +19,7 @@ function CarrinhoItem({item, onRemover, onUpdateQuantidade}: CarrinhoItemProps) 
     }, [item.produto.image]); // Toda vez que a imagem do prop mudar, atualiza o estado.
 
     // Simulando um array de fotos caso o produto tenha apenas uma 
-    const fotosGaleria = item.produto.imagens || [item.produto.image]
+    const fotosGaleria = item.produto.thumbnails || [item.produto.image]
 
     return (
         <article className="carrinho-item">

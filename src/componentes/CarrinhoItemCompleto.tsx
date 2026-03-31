@@ -7,6 +7,7 @@ export interface ICarrinhoItemCompleto {
         price: number;
         description: string;
         image: string;
-        imagens?: string[]; 
+        thumbnails: string[];
+        destaque: boolean;
     };
 }
