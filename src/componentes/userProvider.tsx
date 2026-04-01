@@ -4,23 +4,26 @@ import type {UserContextType} from "../interface/userContext";
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<UserContextType['user']>(null);
+    // Inicializa o estado tentando buscar no localstorage
+    const [user, setUser] = useState<UserContextType['user']>(() => {
+        const savedUser = localStorage.getItem("@AnimesAction:user");
+        return savedUser ? JSON.parse(savedUser) : null; 
+    })
 
-    const signIn: UserContextType['signIn'] = (userData: UserContextType['user']) => {
-        // Lógica de login 
+    const signIn = (userData: UserContextType['user']) => {
         setUser(userData);
+        // Salva no navegador
+        localStorage.setItem("@AnimesActions:user", JSON.stringify(userData));
     };
 
-    const signOut: UserContextType['signOut'] = () => {
-        // Lógica de logout
+    const signOut = () => {
         setUser(null);
+        // Limpa o navegador
+        localStorage.removeItem("@AnimesActions:user");
     };
     
-    // O objeto de valor que será compartilhado
-    const value = { user, signIn, signOut };
-
     return (
-        <UserContext.Provider value={value}>
+        <UserContext.Provider value={{ user, signIn, signOut }}>
             {children}
         </UserContext.Provider>
     );
