@@ -44,7 +44,7 @@ Diferente de soluções externas, a autenticação deste projeto foi construída
 
 * [x] Toggle de visibilidade de senha.
 
-📦 Como rodar o projeto
+## 📦 Como rodar o projeto
 
 1. **Clone o repositório:** 
   ```bash
